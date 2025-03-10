@@ -1,0 +1,33 @@
+Neural Network Test Visualization Summary
+Generated on: 2025-03-09 20:26:45
+
+================================================================================
+SUMMARY OF GENERATED FILES
+================================================================================
+
+Visualization Directory: /home/trim/Documents/GitHub/cognitive-engine/visualizations
+
+HTML Visualization Report: /home/trim/Documents/GitHub/cognitive-engine/visualizations/visualization_report.html
+
+Static Visualizations:
+- test_results: visualizations/test_results.png
+- network_architecture: visualizations/network_architecture.png
+- learning_curve: visualizations/learning_curve.png
+- performance_radar: visualizations/performance_radar.png
+- error_heatmap: visualizations/error_heatmap.png
+- network_architecture_detailed: /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture_detailed.png
+
+Animated Visualizations:
+- training_progress: visualizations/training_progress.gif
+- network_activity: visualizations/network_activity.gif
+
+Advanced Visualizations:
+- network_3d: visualizations/network_3d.png
+- confidence_mse_bubble: visualizations/confidence_mse_bubble.png
+- context_distribution: visualizations/context_distribution.png
+- test_heatcalendar: visualizations/test_heatcalendar.png
+
+Test Reports:
+- Test Report (Markdown): /home/trim/Documents/GitHub/cognitive-engine/tests/results/test_report.md
+- Test Results (JSON): /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test_results.json
+- Test Log: /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test.log

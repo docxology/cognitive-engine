@@ -1,0 +1,38 @@
+{
+  "timestamp": 1741573125,
+  "error": "Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/trim/Documents/GitHub/cognitive-engine/tests/run_neural_tests.py\", line 421, in predict\n    outputs = self(inputs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1518, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1527, in _call_impl\n    return forward_call(*args, **kwargs)\n  File \"/home/trim/Documents/GitHub/cognitive-engine/tests/run_neural_tests.py\", line 402, in forward\n    return self.model(x)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1518, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1527, in _call_impl\n    return forward_call(*args, **kwargs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/container.py\", line 215, in forward\n    input = module(input)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1518, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1527, in _call_impl\n    return forward_call(*args, **kwargs)\n  File \"/home/trim/.local/lib/python3.10/site-packages/torch/nn/modules/linear.py\", line 114, in forward\n    return F.linear(input, self.weight, self.bias)\nRuntimeError: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/trim/Documents/GitHub/cognitive-engine/tests/run_neural_tests.py\", line 1459, in run_tests\n    model.predict(bad_input)\n  File \"/home/trim/Documents/GitHub/cognitive-engine/tests/run_neural_tests.py\", line 426, in predict\n    raise InferenceError(f\"Error during inference: {str(e)}\")\nInferenceError: Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)\n",
+  "input_shape": [
+    10000
+  ],
+  "model_state": {
+    "total_parameters": 238016,
+    "trainable_parameters": 238016,
+    "layer_count": 5,
+    "layers": [
+      {
+        "type": "Linear",
+        "input_size": 768,
+        "output_size": 256,
+        "parameters": 196864
+      },
+      {
+        "type": "ReLU",
+        "parameters": 0
+      },
+      {
+        "type": "Linear",
+        "input_size": 128,
+        "output_size": 64,
+        "parameters": 8256
+      }
+    ],
+    "device": "cpu",
+    "optimizer": "adam",
+    "learning_rate": 0.001,
+    "training_samples_seen": 200,
+    "inference_count": 7,
+    "error_count": 1,
+    "fallback_mode": false
+  }
+}

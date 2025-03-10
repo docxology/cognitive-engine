@@ -170,6 +170,16 @@
   },
   "active": "3a42f22a30a32a35",
   "lastOpenFiles": [
+    "tests/results/test_report.md",
+    "visualizations/network_activity.gif",
+    "visualizations/training_progress.gif",
+    "models/recovery/error_recovery_1741572374.json",
+    "visualizations/performance_radar.png",
+    "models/recovery/error_recovery_1741569693.json",
+    "visualizations/learning_curve.png",
+    "visualizations/network_architecture.png",
+    "visualizations/test_results.png",
+    "models/recovery/error_recovery_1741569556.json",
     "models/recovery/error_recovery_1741569516.json",
     "tests/results/neural_test_results.json",
     "models/recovery/error_recovery_1741569473.json",
@@ -177,12 +187,8 @@
     "tests/results/neural_test.log",
     "tests/data/neural_training.json",
     "tests/data/neural_config.json",
-    "models/backups",
-    "models/recovery",
-    "tests/run_neural_tests.py",
     "docs/memory.md",
     "docs/architecture.md",
-    "tests/run_neural_tests.ts",
     "docs/curriculum/comprehensive_learning.md",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
@@ -209,8 +215,6 @@
     "node_modules/diff/CONTRIBUTING.md",
     "node_modules/@jest/core/README.md",
     "node_modules/@jest/reporters/assets/jest_logo.png",
-    "node_modules/istanbul-reports/lib/html-spa/assets/sort-arrow-sprite.png",
-    "node_modules/istanbul-reports/lib/html/assets/sort-arrow-sprite.png",
-    "node_modules/istanbul-reports/lib/html/assets/favicon.png"
+    "node_modules/istanbul-reports/lib/html-spa/assets/sort-arrow-sprite.png"
   ]
 }

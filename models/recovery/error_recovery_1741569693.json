@@ -1,0 +1,7 @@
+{
+  "timestamp": 1741569693.4365742,
+  "error": "Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)",
+  "error_type": "InferenceError",
+  "recovery_action": "Reduced input dimensionality",
+  "recovery_success": true
+}

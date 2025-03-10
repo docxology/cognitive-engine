@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Test Visualizations</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        h1, h2, h3 { color: #333366; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .visualization { margin-bottom: 30px; background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .visualization img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        .static-vis { border-left: 5px solid #3366cc; }
+        .animated-vis { border-left: 5px solid #cc6633; }
+        .advanced-vis { border-left: 5px solid #33cc66; }
+        .vis-path { font-family: monospace; background-color: #f0f0f0; padding: 5px; border-radius: 3px; margin-top: 10px; }
+        .timestamp { color: #666; font-style: italic; margin-top: 5px; font-size: 0.9em; }
+        .toc { background-color: white; padding: 15px; margin-bottom: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .toc ul { columns: 2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Neural Network Test Visualizations</h1>
+        <div class="timestamp">Generated on: 2025-03-09 20:26:45</div>
+        <div class="toc">
+            <h2>Visualizations</h2>
+            <ul>
+                <li><a href="#test_results">Test Results</a></li>
+                <li><a href="#network_architecture">Network Architecture</a></li>
+                <li><a href="#learning_curve">Learning Curve</a></li>
+                <li><a href="#performance_radar">Performance Radar</a></li>
+                <li><a href="#error_heatmap">Error Heatmap</a></li>
+                <li><a href="#network_3d">Network 3D</a></li>
+                <li><a href="#confidence_mse_bubble">Confidence Mse Bubble</a></li>
+                <li><a href="#context_distribution">Context Distribution</a></li>
+                <li><a href="#test_heatcalendar">Test Heatcalendar</a></li>
+                <li><a href="#network_architecture_detailed">Network Architecture Detailed</a></li>
+                <li><a href="#training_progress">Training Progress (Animated)</a></li>
+                <li><a href="#network_activity">Network Activity (Animated)</a></li>
+            </ul>
+        </div>
+        <h2>Static Visualizations</h2>
+        <div class="visualization static-vis" id="test_results">
+            <h3>Test Results</h3>
+            <img src="test_results.png" alt="test_results" />
+            <div class="vis-path">Path: visualizations/test_results.png</div>
+        </div>
+        <div class="visualization static-vis" id="network_architecture">
+            <h3>Network Architecture</h3>
+            <img src="network_architecture.png" alt="network_architecture" />
+            <div class="vis-path">Path: visualizations/network_architecture.png</div>
+        </div>
+        <div class="visualization static-vis" id="learning_curve">
+            <h3>Learning Curve</h3>
+            <img src="learning_curve.png" alt="learning_curve" />
+            <div class="vis-path">Path: visualizations/learning_curve.png</div>
+        </div>
+        <div class="visualization static-vis" id="performance_radar">
+            <h3>Performance Radar</h3>
+            <img src="performance_radar.png" alt="performance_radar" />
+            <div class="vis-path">Path: visualizations/performance_radar.png</div>
+        </div>
+        <div class="visualization static-vis" id="error_heatmap">
+            <h3>Error Heatmap</h3>
+            <img src="error_heatmap.png" alt="error_heatmap" />
+            <div class="vis-path">Path: visualizations/error_heatmap.png</div>
+        </div>
+        <div class="visualization static-vis" id="network_architecture_detailed">
+            <h3>Network Architecture Detailed</h3>
+            <img src="network_architecture_detailed.png" alt="network_architecture_detailed" />
+            <div class="vis-path">Path: /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture_detailed.png</div>
+        </div>
+        <h2>Animated Visualizations</h2>
+        <div class="visualization animated-vis" id="training_progress">
+            <h3>Training Progress</h3>
+            <img src="training_progress.gif" alt="training_progress" />
+            <div class="vis-path">Path: visualizations/training_progress.gif</div>
+        </div>
+        <div class="visualization animated-vis" id="network_activity">
+            <h3>Network Activity</h3>
+            <img src="network_activity.gif" alt="network_activity" />
+            <div class="vis-path">Path: visualizations/network_activity.gif</div>
+        </div>
+        <h2>Advanced Visualizations</h2>
+        <div class="visualization advanced-vis" id="network_3d">
+            <h3>Network 3D</h3>
+            <img src="network_3d.png" alt="network_3d" />
+            <div class="vis-path">Path: visualizations/network_3d.png</div>
+        </div>
+        <div class="visualization advanced-vis" id="confidence_mse_bubble">
+            <h3>Confidence Mse Bubble</h3>
+            <img src="confidence_mse_bubble.png" alt="confidence_mse_bubble" />
+            <div class="vis-path">Path: visualizations/confidence_mse_bubble.png</div>
+        </div>
+        <div class="visualization advanced-vis" id="context_distribution">
+            <h3>Context Distribution</h3>
+            <img src="context_distribution.png" alt="context_distribution" />
+            <div class="vis-path">Path: visualizations/context_distribution.png</div>
+        </div>
+        <div class="visualization advanced-vis" id="test_heatcalendar">
+            <h3>Test Heatcalendar</h3>
+            <img src="test_heatcalendar.png" alt="test_heatcalendar" />
+            <div class="vis-path">Path: visualizations/test_heatcalendar.png</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,68 +2,173 @@
   "testResults": [
     {
       "name": "greeting_test",
-      "passed": true,
-      "inferenceTime": 0.0005424022674560547,
-      "mse": 4.952907275582324e-06,
+      "passed": false,
+      "inferenceTime": 0.0011093616485595703,
+      "mse": 0.01271546277058987,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741569351.554255,
-        "context": "user_interaction",
-        "confidence": 0.95
+        "timestamp": 1741577189.090162,
+        "context": "greeting_test",
+        "confidence": 0.0
       }
     },
     {
       "name": "question_test",
-      "passed": true,
-      "inferenceTime": 0.000186920166015625,
-      "mse": 4.212722826368491e-06,
+      "passed": false,
+      "inferenceTime": 0.0004324913024902344,
+      "mse": 0.010113554198629233,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741569351.554256,
-        "context": "information_request",
-        "confidence": 0.92
+        "timestamp": 1741577189.0907393,
+        "context": "question_test",
+        "confidence": 0.0
       }
     },
     {
       "name": "command_test",
-      "passed": true,
-      "inferenceTime": 0.00016617774963378906,
-      "mse": 1.4716943494053745e-06,
+      "passed": false,
+      "inferenceTime": 0.0003020763397216797,
+      "mse": 0.011288278716352679,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741569351.5542562,
-        "context": "action_request",
-        "confidence": 0.98
+        "timestamp": 1741577189.091181,
+        "context": "command_test",
+        "confidence": 0.0
       }
     },
     {
       "name": "complex_query_test",
-      "passed": true,
-      "inferenceTime": 0.0001697540283203125,
-      "mse": 1.2038559166195127e-06,
+      "passed": false,
+      "inferenceTime": 0.00022459030151367188,
+      "mse": 0.0106345204637208,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741569351.5542572,
-        "context": "complex_request",
-        "confidence": 0.85
+        "timestamp": 1741577189.0915105,
+        "context": "complex_query_test",
+        "confidence": 0.0
+      }
+    },
+    {
+      "name": "emotion_test",
+      "passed": false,
+      "inferenceTime": 0.0001811981201171875,
+      "mse": 0.011321651488126352,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741577189.0917897,
+        "context": "complex_query_test",
+        "confidence": 0.0
+      }
+    },
+    {
+      "name": "location_test",
+      "passed": false,
+      "inferenceTime": 0.00017881393432617188,
+      "mse": 0.012371642575082357,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741577189.0920672,
+        "context": "question_test",
+        "confidence": 0.0
+      }
+    },
+    {
+      "name": "recommendation_test",
+      "passed": false,
+      "inferenceTime": 0.0001785755157470703,
+      "mse": 0.012658172765958528,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741577189.0923467,
+        "context": "question_test",
+        "confidence": 0.0
       }
     },
     {
       "name": "error_handling_test",
       "passed": false,
-      "inferenceTime": 0.008374929428100586,
+      "inferenceTime": 0.008770465850830078,
       "mse": 1.0,
       "outputSize": 0,
-      "error": "Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)"
+      "error": "Error during inference: Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)"
     }
   ],
   "metrics": {
-    "totalTests": 5,
-    "passedTests": 4,
-    "failedTests": 1,
-    "totalTime": 0.009440183639526367,
-    "averageTime": 0.0018880367279052734,
-    "timestamp": "2025-03-09T18:18:36.310459"
+    "totalTests": 8,
+    "passedTests": 0,
+    "failedTests": 8,
+    "totalTime": 0.011377573013305664,
+    "averageTime": 0.001422196626663208,
+    "timestamp": "2025-03-09T20:26:29.103003",
+    "perTestMetrics": {
+      "greeting_test": {
+        "inferenceTime": 0.0011093616485595703,
+        "mse": 0.01271546277058987,
+        "confidence": 0.0,
+        "context": "greeting_test"
+      },
+      "question_test": {
+        "inferenceTime": 0.0004324913024902344,
+        "mse": 0.010113554198629233,
+        "confidence": 0.0,
+        "context": "question_test"
+      },
+      "command_test": {
+        "inferenceTime": 0.0003020763397216797,
+        "mse": 0.011288278716352679,
+        "confidence": 0.0,
+        "context": "command_test"
+      },
+      "complex_query_test": {
+        "inferenceTime": 0.00022459030151367188,
+        "mse": 0.0106345204637208,
+        "confidence": 0.0,
+        "context": "complex_query_test"
+      },
+      "emotion_test": {
+        "inferenceTime": 0.0001811981201171875,
+        "mse": 0.011321651488126352,
+        "confidence": 0.0,
+        "context": "complex_query_test"
+      },
+      "location_test": {
+        "inferenceTime": 0.00017881393432617188,
+        "mse": 0.012371642575082357,
+        "confidence": 0.0,
+        "context": "question_test"
+      },
+      "recommendation_test": {
+        "inferenceTime": 0.0001785755157470703,
+        "mse": 0.012658172765958528,
+        "confidence": 0.0,
+        "context": "question_test"
+      },
+      "error_handling_test": {
+        "inferenceTime": 0.008770465850830078,
+        "mse": 1.0,
+        "confidence": 0.0,
+        "context": "unknown"
+      }
+    },
+    "contextAnalysis": {
+      "command_test": 1,
+      "complex_query_test": 2,
+      "unknown": 0,
+      "question_test": 3,
+      "greeting_test": 1
+    },
+    "confidenceStats": {
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "performanceProfile": {
+      "meanMSE": 0.011586183282637117,
+      "stdMSE": 0.0009467540527843371,
+      "medianInferenceTime": 0.0002633333206176758,
+      "95thPercentileTime": 0.006089079380035396
+    }
   },
   "networkSummary": {
     "total_parameters": 238016,
@@ -91,9 +196,22 @@
     "optimizer": "adam",
     "learning_rate": 0.001,
     "training_samples_seen": 200,
-    "inference_count": 4,
+    "inference_count": 7,
     "error_count": 1,
     "fallback_mode": false
   },
-  "visualizations": []
+  "visualizations": [
+    "test_results",
+    "network_architecture",
+    "learning_curve",
+    "performance_radar",
+    "error_heatmap",
+    "training_progress",
+    "network_activity",
+    "network_3d",
+    "confidence_mse_bubble",
+    "context_distribution",
+    "test_heatcalendar",
+    "network_architecture_detailed"
+  ]
 }

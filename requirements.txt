@@ -1,9 +1,17 @@
-numpy>=1.21.0
+# Core dependencies
+numpy>=1.19.0
+matplotlib>=3.3.0
+pillow>=7.0.0
+
+# Neural network dependencies
+torch>=1.7.0
+
+# Optional visualization dependencies
+seaborn>=0.11.0
+
 scipy>=1.8.0
-torch>=1.9.0
 transformers>=4.11.0
 networkx>=2.8.0
-matplotlib>=3.4.0
 pytest>=6.2.5
 tqdm>=4.64.0
 pyyaml>=6.0
