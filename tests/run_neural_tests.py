@@ -22,6 +22,8 @@ import argparse
 import random
 from datetime import datetime
 from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Emoji logger for structured output
 class EmojiLogger:
@@ -250,6 +252,19 @@ EMBEDDINGS = {
     "command": np.random.rand(768),
     "complex_query": np.random.rand(768)
 }
+
+# Custom JSON encoder for NumPy types
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        return super(NumpyEncoder, self).default(obj)
 
 # Neural Network implementations
 if HAS_TORCH:
@@ -948,7 +963,7 @@ def run_tests():
     # Save results
     try:
         with open('tests/results/neural_test_results.json', 'w') as f:
-            json.dump(results, f, indent=2)
+            json.dump(results, f, indent=2, cls=NumpyEncoder)
         logger.success("Saved test results to neural_test_results.json")
     except Exception as e:
         logger.error("Error saving test results: {}", str(e))

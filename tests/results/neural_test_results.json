@@ -2,4 +2,98 @@
   "testResults": [
     {
       "name": "greeting_test",
-      "passed": 
+      "passed": true,
+      "inferenceTime": 0.0005424022674560547,
+      "mse": 4.952907275582324e-06,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741569351.554255,
+        "context": "user_interaction",
+        "confidence": 0.95
+      }
+    },
+    {
+      "name": "question_test",
+      "passed": true,
+      "inferenceTime": 0.000186920166015625,
+      "mse": 4.212722826368491e-06,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741569351.554256,
+        "context": "information_request",
+        "confidence": 0.92
+      }
+    },
+    {
+      "name": "command_test",
+      "passed": true,
+      "inferenceTime": 0.00016617774963378906,
+      "mse": 1.4716943494053745e-06,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741569351.5542562,
+        "context": "action_request",
+        "confidence": 0.98
+      }
+    },
+    {
+      "name": "complex_query_test",
+      "passed": true,
+      "inferenceTime": 0.0001697540283203125,
+      "mse": 1.2038559166195127e-06,
+      "outputSize": 64,
+      "metadata": {
+        "timestamp": 1741569351.5542572,
+        "context": "complex_request",
+        "confidence": 0.85
+      }
+    },
+    {
+      "name": "error_handling_test",
+      "passed": false,
+      "inferenceTime": 0.008374929428100586,
+      "mse": 1.0,
+      "outputSize": 0,
+      "error": "Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)"
+    }
+  ],
+  "metrics": {
+    "totalTests": 5,
+    "passedTests": 4,
+    "failedTests": 1,
+    "totalTime": 0.009440183639526367,
+    "averageTime": 0.0018880367279052734,
+    "timestamp": "2025-03-09T18:18:36.310459"
+  },
+  "networkSummary": {
+    "total_parameters": 238016,
+    "trainable_parameters": 238016,
+    "layer_count": 5,
+    "layers": [
+      {
+        "type": "Linear",
+        "input_size": 768,
+        "output_size": 256,
+        "parameters": 196864
+      },
+      {
+        "type": "ReLU",
+        "parameters": 0
+      },
+      {
+        "type": "Linear",
+        "input_size": 128,
+        "output_size": 64,
+        "parameters": 8256
+      }
+    ],
+    "device": "cpu",
+    "optimizer": "adam",
+    "learning_rate": 0.001,
+    "training_samples_seen": 200,
+    "inference_count": 4,
+    "error_count": 1,
+    "fallback_mode": false
+  },
+  "visualizations": []
+}

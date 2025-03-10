@@ -170,6 +170,7 @@
   },
   "active": "3a42f22a30a32a35",
   "lastOpenFiles": [
+    "models/recovery/error_recovery_1741569516.json",
     "tests/results/neural_test_results.json",
     "models/recovery/error_recovery_1741569473.json",
     "models/neural_model.pt",
@@ -182,7 +183,6 @@
     "docs/memory.md",
     "docs/architecture.md",
     "tests/run_neural_tests.ts",
-    "run_neural_tests.ts",
     "docs/curriculum/comprehensive_learning.md",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
