@@ -16,13 +16,67 @@ import os
 import sys
 import signal
 import atexit
+import json
+import time
+import argparse
+import random
+from datetime import datetime
+from pathlib import Path
+
+# Emoji logger for structured output
+class EmojiLogger:
+    """Logger that uses emojis for different message types"""
+    def __init__(self, log_file=None):
+        self.log_file = log_file
+        self.start_time = time.time()
+        self.handlers = []
+        
+        # Create log directory if needed
+        if log_file:
+            os.makedirs(os.path.dirname(log_file), exist_ok=True)
+    
+    def _log(self, emoji, msg, *args, **kwargs):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        elapsed = time.time() - self.start_time
+        formatted_msg = f"[{timestamp}] ({elapsed:.2f}s) {emoji} {msg.format(*args, **kwargs)}"
+        print(formatted_msg, flush=True)
+        if self.log_file:
+            with open(self.log_file, 'a') as f:
+                f.write(formatted_msg + '\n')
+    
+    def info(self, msg, *args, **kwargs):
+        self._log("ℹ️", msg, *args, **kwargs)
+    
+    def success(self, msg, *args, **kwargs):
+        self._log("✅", msg, *args, **kwargs)
+    
+    def warning(self, msg, *args, **kwargs):
+        self._log("⚠️", msg, *args, **kwargs)
+    
+    def error(self, msg, *args, **kwargs):
+        self._log("❌", msg, *args, **kwargs)
+    
+    def debug(self, msg, *args, **kwargs):
+        self._log("🔍", msg, *args, **kwargs)
+    
+    def model(self, msg, *args, **kwargs):
+        self._log("🧠", msg, *args, **kwargs)
+    
+    def test(self, msg, *args, **kwargs):
+        self._log("🧪", msg, *args, **kwargs)
+
+# Initialize logger
+logger = EmojiLogger(log_file='tests/results/neural_test.log')
 
 # Environment setup and validation
 def setup_environment():
     """Setup and validate Python environment"""
+    logger.info("Setting up Python environment")
+    
     # Reset problematic environment variables
     if 'PYTHONHOME' in os.environ:
         del os.environ['PYTHONHOME']
+        logger.debug("Unset PYTHONHOME")
     
     # Ensure proper Python path
     python_path = os.environ.get('PYTHONPATH', '').split(os.pathsep)
@@ -35,70 +89,42 @@ def setup_environment():
         python_path.insert(0, lib_path)
     
     os.environ['PYTHONPATH'] = os.pathsep.join(filter(None, python_path))
+    logger.debug("Updated PYTHONPATH: {}", os.environ['PYTHONPATH'])
     
     # Add system Python paths if needed
     system_paths = [
         '/usr/lib/python3/dist-packages',
         '/usr/local/lib/python3/dist-packages',
-        os.path.expanduser('~/.local/lib/python3/site-packages')
+        os.path.expanduser('~/.local/lib/python3.10/site-packages')
     ]
     
     for path in system_paths:
         if os.path.exists(path) and path not in sys.path:
             sys.path.append(path)
+            logger.debug("Added path to sys.path: {}", path)
 
-def cleanup():
-    """Cleanup function to be called on exit"""
-    try:
-        # Close any matplotlib figures
-        plt.close('all')
-        
-        # Ensure all files are closed
-        for handler in logger.handlers:
-            handler.close()
-            
-        # Save any pending logs
-        sys.stdout.flush()
-        sys.stderr.flush()
-        
-    except Exception as e:
-        print(f"❌ Error during cleanup: {str(e)}")
-
-def signal_handler(signum, frame):
-    """Handle interruption signals gracefully"""
-    signal_name = signal.Signals(signum).name
-    logger.warning("Received signal: {}", signal_name)
-    logger.info("Initiating graceful shutdown...")
-    cleanup()
-    sys.exit(0)
-
-# Register cleanup function and signal handlers
-atexit.register(cleanup)
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
-
-# Run environment setup before any other imports
+# Run environment setup before proceeding
 setup_environment()
 
-# Now proceed with other imports
-import json
-import time
-import argparse
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-from datetime import datetime
-from pathlib import Path
+# Now import the rest of the dependencies
+try:
+    import numpy as np
+    import matplotlib.pyplot as plt
+    logger.success("Successfully imported core dependencies")
+except ImportError as e:
+    logger.error("Failed to import core dependencies: {}", str(e))
+    sys.exit(1)
 
-# Check if PyTorch is available, otherwise use NumPy fallback
+# Check if PyTorch is available
 try:
     import torch
     import torch.nn as nn
     import torch.optim as optim
     HAS_TORCH = True
+    logger.success("PyTorch is available")
 except ImportError:
     HAS_TORCH = False
-    print("PyTorch not found. Using NumPy fallback.")
+    logger.warning("PyTorch not found, will use NumPy fallback")
 
 # Create directories if they don't exist
 directories = [

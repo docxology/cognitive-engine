@@ -1,0 +1,49 @@
+[2025-03-09 18:17:51] (0.00s) ℹ️ Setting up Python environment
+[2025-03-09 18:17:51] (0.00s) 🔍 Updated PYTHONPATH: /usr/lib/lib:/usr/lib:/home/trim/.local/lib/python3.10/site-packages
+[2025-03-09 18:17:51] (0.44s) ✅ Successfully imported core dependencies
+[2025-03-09 18:17:52] (1.36s) ✅ PyTorch is available
+[2025-03-09 18:17:52] (0.00s) ℹ️ Starting neural network test runner
+[2025-03-09 18:17:52] (0.00s) 🔍 Validating Python environment
+[2025-03-09 18:17:52] (0.00s) ✅ Python environment validated successfully
+[2025-03-09 18:17:52] (0.00s) ℹ️ Setting up directory structure
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: tests/data
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: tests/results
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: models
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: models/recovery
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: models/backups
+[2025-03-09 18:17:52] (0.00s) ✅ Created directory: visualizations
+[2025-03-09 18:17:52] (0.00s) ℹ️ Checking dependencies
+[2025-03-09 18:17:52] (0.00s) ✅ Critical package numpy available
+[2025-03-09 18:17:52] (0.00s) ✅ Critical package matplotlib available
+[2025-03-09 18:17:52] (0.00s) ✅ Optional package torch available
+[2025-03-09 18:17:52] (0.00s) ℹ️ Starting test execution
+[2025-03-09 18:17:53] (0.57s) 🧠 Using PyTorch neural network
+[2025-03-09 18:17:53] (0.57s) ✅ Loaded training data from file
+[2025-03-09 18:17:53] (0.58s) ℹ️ Training a new model
+[2025-03-09 18:17:53] (0.62s) ℹ️ Epoch 1/50, Loss: 0.018048
+[2025-03-09 18:17:53] (0.69s) ℹ️ Epoch 11/50, Loss: 0.009721
+[2025-03-09 18:17:53] (0.75s) ℹ️ Epoch 21/50, Loss: 0.003463
+[2025-03-09 18:17:53] (0.81s) ℹ️ Epoch 31/50, Loss: 0.000050
+[2025-03-09 18:17:53] (0.87s) ℹ️ Epoch 41/50, Loss: 0.000003
+[2025-03-09 18:17:53] (0.93s) ✅ Saved model to models/neural_model.pt
+[2025-03-09 18:17:53] (0.93s) 🧪 Starting inference tests
+[2025-03-09 18:17:53] (0.93s) 🧪 Running test: greeting_test
+[2025-03-09 18:17:53] (0.93s) ✅ Test passed: greeting_test (MSE: 0.000005, Time: 0.000333s)
+[2025-03-09 18:17:53] (0.93s) 🧪 Running test: question_test
+[2025-03-09 18:17:53] (0.93s) ✅ Test passed: question_test (MSE: 0.000004, Time: 0.000211s)
+[2025-03-09 18:17:53] (0.93s) 🧪 Running test: command_test
+[2025-03-09 18:17:53] (0.93s) ✅ Test passed: command_test (MSE: 0.000001, Time: 0.000144s)
+[2025-03-09 18:17:53] (0.93s) 🧪 Running test: complex_query_test
+[2025-03-09 18:17:53] (0.93s) ✅ Test passed: complex_query_test (MSE: 0.000001, Time: 0.000140s)
+[2025-03-09 18:17:53] (0.93s) 🧪 Running error handling test
+[2025-03-09 18:17:53] (0.96s) ✅ Error handling test passed (expected error caught)
+[2025-03-09 18:17:53] (0.96s) ℹ️ Created error recovery file at models/recovery/error_recovery_1741569473.json
+[2025-03-09 18:17:53] (0.96s) ✅ Generated network summary
+[2025-03-09 18:17:53] (0.96s) ❌ Error saving test results: Object of type bool_ is not JSON serializable
+[2025-03-09 18:17:53] (0.96s) ✅ Test execution completed
+[2025-03-09 18:17:53] (0.96s) ℹ️ Processing test results
+[2025-03-09 18:17:53] (0.96s) ✅ Tests completed: 4/5 passed
+[2025-03-09 18:17:53] (0.96s) ⚠️ Some tests failed: 1 failures
+[2025-03-09 18:17:53] (0.96s) ℹ️ Average inference time: 0.005254s
+[2025-03-09 18:17:53] (0.96s) 🧠 Network parameters: 238016
+[2025-03-09 18:17:53] (0.96s) ℹ️ Test runner completed successfully
