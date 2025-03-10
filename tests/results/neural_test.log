@@ -608,3 +608,169 @@ AttributeError: 'Namespace' object has no attribute 'retrain'
 [2025-03-09 20:26:45] (17.12s) ✅ Copied HTML report to /home/trim/Documents/GitHub/cognitive-engine/vis_export/visualization_report.html
 [2025-03-09 20:26:45] (17.12s) ✅ Copied visualization summary to /home/trim/Documents/GitHub/cognitive-engine/vis_export/visualization_summary.txt
 [2025-03-09 20:26:45] (17.12s) ℹ️ Test runner completed successfully
+[2025-03-10 06:27:09] (0.00s) ℹ️ Setting up Python environment
+[2025-03-10 06:27:09] (0.00s) 🔍 Updated PYTHONPATH: /usr/lib/lib:/usr/lib:/home/trim/Documents/GitHub/cognitive-engine
+[2025-03-10 06:27:09] (0.00s) ✅ Successfully imported core dependencies
+[2025-03-10 06:27:10] (0.96s) ✅ PyTorch is available
+[2025-03-10 06:27:10] (0.00s) ℹ️ Starting neural network test runner
+[2025-03-10 06:27:10] (0.00s) 🔍 Validating Python environment
+[2025-03-10 06:27:10] (0.00s) ✅ Python environment validated successfully
+[2025-03-10 06:27:10] (0.00s) ℹ️ Setting up directory structure
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: tests/data
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: tests/results
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: models
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: models/recovery
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: models/backups
+[2025-03-10 06:27:10] (0.00s) ✅ Created directory: visualizations
+[2025-03-10 06:27:10] (0.00s) ℹ️ Checking dependencies
+[2025-03-10 06:27:10] (0.00s) ✅ Critical package numpy available
+[2025-03-10 06:27:10] (0.00s) ✅ Critical package matplotlib available
+[2025-03-10 06:27:10] (0.00s) ✅ Optional package torch available
+[2025-03-10 06:27:10] (0.00s) ℹ️ Starting test execution
+[2025-03-10 06:27:10] (0.00s) ℹ️ Starting test execution
+[2025-03-10 06:27:10] (0.00s) ℹ️ Test logs will be saved to: /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test.log
+[2025-03-10 06:27:10] (0.00s) ℹ️ Test run timestamp: 1741613230
+[2025-03-10 06:27:11] (0.47s) ✅ Loaded existing model from /home/trim/Documents/GitHub/cognitive-engine/models/neural_model.pt
+[2025-03-10 06:27:11] (0.47s) 🧪 Starting inference tests
+[2025-03-10 06:27:11] (0.47s) 🧪 Running test: greeting_test
+[2025-03-10 06:27:11] (0.47s) ❌ Test failed: greeting_test (MSE: 0.012715, Time: 0.000787s)
+[2025-03-10 06:27:11] (0.47s) 🧪 Running test: question_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: question_test (MSE: 0.010114, Time: 0.000468s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running test: command_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: command_test (MSE: 0.011288, Time: 0.000321s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running test: complex_query_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: complex_query_test (MSE: 0.010635, Time: 0.000228s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running test: emotion_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: emotion_test (MSE: 0.011322, Time: 0.000207s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running test: location_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: location_test (MSE: 0.012372, Time: 0.000217s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running test: recommendation_test
+[2025-03-10 06:27:11] (0.48s) ❌ Test failed: recommendation_test (MSE: 0.012658, Time: 0.000193s)
+[2025-03-10 06:27:11] (0.48s) 🧪 Running error handling test
+[2025-03-10 06:27:11] (0.49s) ℹ️ Created error recovery file at /home/trim/Documents/GitHub/cognitive-engine/models/recovery/error_recovery_1741613230.json
+[2025-03-10 06:27:11] (0.49s) ✅ Error handling test passed (expected error caught)
+[2025-03-10 06:27:11] (0.49s) ✅ Generated network summary
+[2025-03-10 06:27:11] (0.49s) ℹ️ Generating test visualizations and metrics plots
+[2025-03-10 06:27:12] (1.20s) ✅ Generated test results visualization
+[2025-03-10 06:27:12] (1.58s) ✅ Generated network architecture visualization
+[2025-03-10 06:27:13] (2.08s) ✅ Generated learning curves visualization
+[2025-03-10 06:27:13] (2.77s) ✅ Generated performance radar visualization
+[2025-03-10 06:27:14] (3.75s) ✅ Generated error analysis heatmap at /home/trim/Documents/GitHub/cognitive-engine/visualizations/error_heatmap.png
+[2025-03-10 06:27:14] (3.75s) ✅ Generated 5 visualization files
+[2025-03-10 06:27:14] (3.75s) ✅ Saved test_results visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_results.png
+[2025-03-10 06:27:14] (3.75s) ✅ Saved network_architecture visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture.png
+[2025-03-10 06:27:14] (3.75s) ✅ Saved learning_curve visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/learning_curve.png
+[2025-03-10 06:27:14] (3.75s) ✅ Saved performance_radar visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/performance_radar.png
+[2025-03-10 06:27:14] (3.75s) ✅ Saved error_heatmap visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/error_heatmap.png
+[2025-03-10 06:27:14] (3.75s) ℹ️ Generating animated visualizations
+[2025-03-10 06:27:16] (5.35s) ✅ Generated animated training progress
+[2025-03-10 06:27:26] (15.21s) ✅ Generated animated network activity heatmap
+[2025-03-10 06:27:26] (15.21s) ✅ Generated 2 animated visualization files
+[2025-03-10 06:27:26] (15.21s) ✅ Saved training_progress animation to /home/trim/Documents/GitHub/cognitive-engine/visualizations/training_progress.gif
+[2025-03-10 06:27:26] (15.21s) ✅ Saved network_activity animation to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_activity.gif
+[2025-03-10 06:27:26] (15.21s) ℹ️ Generating advanced 3D visualizations
+[2025-03-10 06:27:26] (15.80s) ✅ Generated 3D network architecture visualization at /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_3d.png
+[2025-03-10 06:27:27] (16.19s) ✅ Generated confidence vs MSE bubble chart at /home/trim/Documents/GitHub/cognitive-engine/visualizations/confidence_mse_bubble.png
+[2025-03-10 06:27:27] (16.53s) ✅ Generated context distribution pie chart at /home/trim/Documents/GitHub/cognitive-engine/visualizations/context_distribution.png
+[2025-03-10 06:27:28] (17.27s) ✅ Generated test execution heat calendar at /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_heatcalendar.png
+[2025-03-10 06:27:28] (17.28s) ✅ Generated 4 advanced visualization files
+[2025-03-10 06:27:28] (17.28s) ✅ Saved network_3d advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_3d.png
+[2025-03-10 06:27:28] (17.28s) ✅ Saved confidence_mse_bubble advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/confidence_mse_bubble.png
+[2025-03-10 06:27:28] (17.28s) ✅ Saved context_distribution advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/context_distribution.png
+[2025-03-10 06:27:28] (17.28s) ✅ Saved test_heatcalendar advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_heatcalendar.png
+[2025-03-10 06:27:28] (17.74s) ✅ Generated detailed network architecture visualization at /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture_detailed.png
+[2025-03-10 06:27:28] (17.74s) ❌ Error generating interactive dashboard: local variable 'results' referenced before assignment
+[2025-03-10 06:27:28] (17.74s) ✅ Generated detailed test report at /home/trim/Documents/GitHub/cognitive-engine/tests/results/test_report.md
+[2025-03-10 06:27:28] (17.74s) ✅ Saved test results to /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test_results.json
+[2025-03-10 06:27:28] (17.74s) ✅ Generated HTML visualization report at /home/trim/Documents/GitHub/cognitive-engine/visualizations/visualization_report.html
+[2025-03-10 06:27:28] (17.74s) ✅ Generated visualization summary at /home/trim/Documents/GitHub/cognitive-engine/tests/results/visualization_summary.txt
+[2025-03-10 06:27:28] (17.74s) ✅ Test execution completed
+[2025-03-10 06:27:28] (17.74s) ℹ️ Processing test results
+[2025-03-10 06:27:28] (17.74s) ✅ Tests completed: 0/8 passed
+[2025-03-10 06:27:28] (17.74s) ⚠️ Some tests failed: 8 failures
+[2025-03-10 06:27:28] (17.74s) ℹ️ Average inference time: 0.001298s
+[2025-03-10 06:27:28] (17.74s) 🧠 Network parameters: 238016
+[2025-03-10 06:27:28] (17.74s) ℹ️ Test runner completed successfully
+[2025-03-10 06:29:33] (0.00s) ℹ️ Setting up Python environment
+[2025-03-10 06:29:33] (0.00s) 🔍 Updated PYTHONPATH: /usr/lib/lib:/usr/lib:/home/trim/Documents/GitHub/cognitive-engine
+[2025-03-10 06:29:33] (0.00s) ✅ Successfully imported core dependencies
+[2025-03-10 06:29:34] (0.87s) ✅ PyTorch is available
+[2025-03-10 06:29:34] (0.00s) ℹ️ Starting neural network test runner
+[2025-03-10 06:29:34] (0.00s) 🔍 Validating Python environment
+[2025-03-10 06:29:34] (0.00s) ✅ Python environment validated successfully
+[2025-03-10 06:29:34] (0.00s) ℹ️ Setting up directory structure
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: tests/data
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: tests/results
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: models
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: models/recovery
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: models/backups
+[2025-03-10 06:29:34] (0.00s) ✅ Created directory: visualizations
+[2025-03-10 06:29:34] (0.00s) ℹ️ Checking dependencies
+[2025-03-10 06:29:34] (0.00s) ✅ Critical package numpy available
+[2025-03-10 06:29:34] (0.00s) ✅ Critical package matplotlib available
+[2025-03-10 06:29:34] (0.00s) ✅ Optional package torch available
+[2025-03-10 06:29:34] (0.00s) ℹ️ Starting test execution
+[2025-03-10 06:29:34] (0.00s) ℹ️ Starting test execution
+[2025-03-10 06:29:34] (0.00s) ℹ️ Test logs will be saved to: /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test.log
+[2025-03-10 06:29:34] (0.00s) ℹ️ Test run timestamp: 1741613374
+[2025-03-10 06:29:34] (0.45s) ✅ Loaded existing model from /home/trim/Documents/GitHub/cognitive-engine/models/neural_model.pt
+[2025-03-10 06:29:34] (0.45s) 🧪 Starting inference tests
+[2025-03-10 06:29:34] (0.45s) 🧪 Running test: greeting_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: greeting_test (MSE: 0.012715, Time: 0.001115s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: question_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: question_test (MSE: 0.010114, Time: 0.000316s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: command_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: command_test (MSE: 0.011288, Time: 0.000188s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: complex_query_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: complex_query_test (MSE: 0.010635, Time: 0.000194s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: emotion_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: emotion_test (MSE: 0.011322, Time: 0.000177s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: location_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: location_test (MSE: 0.012372, Time: 0.000176s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running test: recommendation_test
+[2025-03-10 06:29:34] (0.46s) ❌ Test failed: recommendation_test (MSE: 0.012658, Time: 0.000184s)
+[2025-03-10 06:29:34] (0.46s) 🧪 Running error handling test
+[2025-03-10 06:29:34] (0.47s) ℹ️ Created error recovery file at /home/trim/Documents/GitHub/cognitive-engine/models/recovery/error_recovery_1741613374.json
+[2025-03-10 06:29:34] (0.47s) ✅ Error handling test passed (expected error caught)
+[2025-03-10 06:29:34] (0.47s) ✅ Generated network summary
+[2025-03-10 06:29:34] (0.47s) ℹ️ Generating test visualizations and metrics plots
+[2025-03-10 06:29:35] (1.11s) ✅ Generated test results visualization
+[2025-03-10 06:29:35] (1.45s) ✅ Generated network architecture visualization
+[2025-03-10 06:29:36] (1.89s) ✅ Generated learning curves visualization
+[2025-03-10 06:29:36] (2.51s) ✅ Generated performance radar visualization
+[2025-03-10 06:29:37] (3.29s) ✅ Generated error analysis heatmap at /home/trim/Documents/GitHub/cognitive-engine/visualizations/error_heatmap.png
+[2025-03-10 06:29:37] (3.29s) ✅ Generated 5 visualization files
+[2025-03-10 06:29:37] (3.29s) ✅ Saved test_results visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_results.png
+[2025-03-10 06:29:37] (3.29s) ✅ Saved network_architecture visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture.png
+[2025-03-10 06:29:37] (3.29s) ✅ Saved learning_curve visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/learning_curve.png
+[2025-03-10 06:29:37] (3.29s) ✅ Saved performance_radar visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/performance_radar.png
+[2025-03-10 06:29:37] (3.29s) ✅ Saved error_heatmap visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/error_heatmap.png
+[2025-03-10 06:29:37] (3.29s) ℹ️ Generating animated visualizations
+[2025-03-10 06:29:38] (4.64s) ✅ Generated animated training progress
+[2025-03-10 06:29:47] (13.68s) ✅ Generated animated network activity heatmap
+[2025-03-10 06:29:47] (13.68s) ✅ Generated 2 animated visualization files
+[2025-03-10 06:29:47] (13.68s) ✅ Saved training_progress animation to /home/trim/Documents/GitHub/cognitive-engine/visualizations/training_progress.gif
+[2025-03-10 06:29:47] (13.68s) ✅ Saved network_activity animation to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_activity.gif
+[2025-03-10 06:29:47] (13.68s) ℹ️ Generating advanced 3D visualizations
+[2025-03-10 06:29:48] (14.21s) ✅ Generated 3D network architecture visualization at /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_3d.png
+[2025-03-10 06:29:48] (14.57s) ✅ Generated confidence vs MSE bubble chart at /home/trim/Documents/GitHub/cognitive-engine/visualizations/confidence_mse_bubble.png
+[2025-03-10 06:29:49] (14.88s) ✅ Generated context distribution pie chart at /home/trim/Documents/GitHub/cognitive-engine/visualizations/context_distribution.png
+[2025-03-10 06:29:49] (15.64s) ✅ Generated test execution heat calendar at /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_heatcalendar.png
+[2025-03-10 06:29:49] (15.64s) ✅ Generated 4 advanced visualization files
+[2025-03-10 06:29:49] (15.64s) ✅ Saved network_3d advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_3d.png
+[2025-03-10 06:29:49] (15.64s) ✅ Saved confidence_mse_bubble advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/confidence_mse_bubble.png
+[2025-03-10 06:29:49] (15.64s) ✅ Saved context_distribution advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/context_distribution.png
+[2025-03-10 06:29:49] (15.64s) ✅ Saved test_heatcalendar advanced visualization to /home/trim/Documents/GitHub/cognitive-engine/visualizations/test_heatcalendar.png
+[2025-03-10 06:29:50] (16.04s) ✅ Generated detailed network architecture visualization at /home/trim/Documents/GitHub/cognitive-engine/visualizations/network_architecture_detailed.png
+[2025-03-10 06:29:50] (16.04s) ❌ Error generating interactive dashboard: local variable 'results' referenced before assignment
+[2025-03-10 06:29:50] (16.04s) ✅ Generated detailed test report at /home/trim/Documents/GitHub/cognitive-engine/tests/results/test_report.md
+[2025-03-10 06:29:50] (16.04s) ✅ Saved test results to /home/trim/Documents/GitHub/cognitive-engine/tests/results/neural_test_results.json
+[2025-03-10 06:29:50] (16.04s) ✅ Generated HTML visualization report at /home/trim/Documents/GitHub/cognitive-engine/visualizations/visualization_report.html
+[2025-03-10 06:29:50] (16.04s) ✅ Generated visualization summary at /home/trim/Documents/GitHub/cognitive-engine/tests/results/visualization_summary.txt
+[2025-03-10 06:29:50] (16.04s) ✅ Test execution completed
+[2025-03-10 06:29:50] (16.04s) ℹ️ Processing test results
+[2025-03-10 06:29:50] (16.04s) ✅ Tests completed: 0/8 passed
+[2025-03-10 06:29:50] (16.04s) ⚠️ Some tests failed: 8 failures
+[2025-03-10 06:29:50] (16.04s) ℹ️ Average inference time: 0.001355s
+[2025-03-10 06:29:50] (16.04s) 🧠 Network parameters: 238016
+[2025-03-10 06:29:50] (16.04s) ℹ️ Test runner completed successfully

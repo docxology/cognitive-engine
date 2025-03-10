@@ -1,64 +1,55 @@
 #!/usr/bin/env python3
 """
 Main script for running neural network tests.
-This script ensures that the Python environment is correctly set up before running the tests.
 """
 
 import os
 import sys
-import subprocess
 from pathlib import Path
-
 
 def main():
     """Main entry point for running neural tests"""
-    # Get the path to the setup script
-    setup_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'setup', 'run_neural_tests.py')
+    # Get the project root directory
+    project_root = Path(__file__).parent.absolute()
     
-    # Check if the setup script exists
-    if not os.path.exists(setup_script):
-        print(f"❌ Setup script not found at {setup_script}")
+    # Clear problematic environment variables in Cursor
+    if os.environ.get('PYTHONHOME') and '.mount_Cursor' in os.environ['PYTHONHOME']:
+        del os.environ['PYTHONHOME']
+    
+    # Set Python path to just our project root
+    os.environ['PYTHONPATH'] = str(project_root)
+    
+    # Ensure output directories exist
+    Path('visualizations').mkdir(exist_ok=True)
+    Path('tests/results').mkdir(exist_ok=True)
+    
+    # Run the tests
+    test_script = project_root / 'tests' / 'run_neural_tests.py'
+    if not test_script.exists():
+        print(f"❌ Test script not found at {test_script}")
         return 1
-    
-    # Build the command to run
-    cmd = [sys.executable, setup_script]
-    
-    # Add any arguments passed to this script
-    cmd.extend(sys.argv[1:])
-    
-    print(f"Running neural tests with proper environment setup...")
-    print(f"Command: {' '.join(cmd)}")
+        
+    # Import and run the tests directly
+    sys.path.insert(0, str(project_root))
+    from tests.run_neural_tests import run_tests
     
     try:
-        # Run the command
-        result = subprocess.run(cmd, check=True)
-        print(f"Neural tests completed with exit code {result.returncode}")
-        
-        # If successful, show a message about visualizations
-        if result.returncode == 0:
-            vis_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'visualizations')
-            if os.path.exists(vis_dir):
-                print("\n" + "="*80)
-                print("VISUALIZATIONS")
-                print(f"Neural network visualizations are available at:")
-                print(f"{vis_dir}")
-                
-                # Check for HTML report
-                html_report = os.path.join(vis_dir, 'visualization_report.html')
-                if os.path.exists(html_report):
-                    print(f"\nVisualization HTML report:")
-                    print(f"{html_report}")
-                
-                print("="*80 + "\n")
-        
-        return result.returncode
-    except subprocess.CalledProcessError as e:
-        print(f"Neural tests failed with exit code {e.returncode}")
-        return e.returncode
+        results = run_tests()
+        if '--visualize' in sys.argv:
+            print("\n" + "="*78)
+            print("VISUALIZATIONS")
+            print(f"Neural network visualizations are available at:")
+            print(f"{project_root}/visualizations")
+            
+            html_report = project_root / 'visualizations' / 'visualization_report.html'
+            if html_report.exists():
+                print(f"\nVisualization HTML report:")
+                print(f"{html_report}")
+            print("="*78 + "\n")
+        return 0 if results else 1
     except Exception as e:
         print(f"❌ Error running neural tests: {str(e)}")
         return 1
-
 
 if __name__ == "__main__":
     sys.exit(main()) 

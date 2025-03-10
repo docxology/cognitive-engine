@@ -1,24 +1,24 @@
 # Neural Network Test Report
 
-Generated on: 2025-03-09 20:26:45
+Generated on: 2025-03-10 06:29:50
 
 ## Test Summary
 - Total Tests: 8
 - Passed: 0
 - Failed: 8
-- Average Inference Time: 0.001422s
+- Average Inference Time: 0.001355s
 
 ## Performance Profile
 - Mean MSE: 0.011586
-- Median Inference Time: 0.000263s
-- 95th Percentile Time: 0.006089s
+- Median Inference Time: 0.000191s
+- 95th Percentile Time: 0.005909s
 
 ## Context Analysis
-- command_test: 1 tests
 - complex_query_test: 2 tests
-- unknown: 0 tests
-- question_test: 3 tests
 - greeting_test: 1 tests
+- question_test: 3 tests
+- command_test: 1 tests
+- unknown: 0 tests
 
 ## Confidence Statistics
 - Mean Confidence: 0.00
@@ -35,7 +35,7 @@ Generated on: 2025-03-09 20:26:45
 ### greeting_test
 - Passed: False
 - MSE: 0.012715
-- Inference Time: 0.001109s
+- Inference Time: 0.001115s
 - Context: greeting_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -43,7 +43,7 @@ Generated on: 2025-03-09 20:26:45
 ### question_test
 - Passed: False
 - MSE: 0.010114
-- Inference Time: 0.000432s
+- Inference Time: 0.000316s
 - Context: question_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -51,7 +51,7 @@ Generated on: 2025-03-09 20:26:45
 ### command_test
 - Passed: False
 - MSE: 0.011288
-- Inference Time: 0.000302s
+- Inference Time: 0.000188s
 - Context: command_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -59,7 +59,7 @@ Generated on: 2025-03-09 20:26:45
 ### complex_query_test
 - Passed: False
 - MSE: 0.010635
-- Inference Time: 0.000225s
+- Inference Time: 0.000194s
 - Context: complex_query_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -67,7 +67,7 @@ Generated on: 2025-03-09 20:26:45
 ### emotion_test
 - Passed: False
 - MSE: 0.011322
-- Inference Time: 0.000181s
+- Inference Time: 0.000177s
 - Context: complex_query_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -75,7 +75,7 @@ Generated on: 2025-03-09 20:26:45
 ### location_test
 - Passed: False
 - MSE: 0.012372
-- Inference Time: 0.000179s
+- Inference Time: 0.000176s
 - Context: question_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -83,7 +83,7 @@ Generated on: 2025-03-09 20:26:45
 ### recommendation_test
 - Passed: False
 - MSE: 0.012658
-- Inference Time: 0.000179s
+- Inference Time: 0.000184s
 - Context: question_test
 - Confidence: 0.00
 - Error: Unknown error
@@ -91,7 +91,7 @@ Generated on: 2025-03-09 20:26:45
 ### error_handling_test
 - Passed: False
 - MSE: 1.000000
-- Inference Time: 0.008770s
+- Inference Time: 0.008491s
 - Error: Error during inference: Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)
 
 ## Generated Visualizations

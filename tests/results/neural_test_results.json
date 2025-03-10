@@ -3,11 +3,11 @@
     {
       "name": "greeting_test",
       "passed": false,
-      "inferenceTime": 0.0011093616485595703,
+      "inferenceTime": 0.0011146068572998047,
       "mse": 0.01271546277058987,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.090162,
+        "timestamp": 1741613374.7744493,
         "context": "greeting_test",
         "confidence": 0.0
       }
@@ -15,11 +15,11 @@
     {
       "name": "question_test",
       "passed": false,
-      "inferenceTime": 0.0004324913024902344,
+      "inferenceTime": 0.0003159046173095703,
       "mse": 0.010113554198629233,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.0907393,
+        "timestamp": 1741613374.7749705,
         "context": "question_test",
         "confidence": 0.0
       }
@@ -27,11 +27,11 @@
     {
       "name": "command_test",
       "passed": false,
-      "inferenceTime": 0.0003020763397216797,
+      "inferenceTime": 0.00018835067749023438,
       "mse": 0.011288278716352679,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.091181,
+        "timestamp": 1741613374.7752554,
         "context": "command_test",
         "confidence": 0.0
       }
@@ -39,11 +39,11 @@
     {
       "name": "complex_query_test",
       "passed": false,
-      "inferenceTime": 0.00022459030151367188,
+      "inferenceTime": 0.00019407272338867188,
       "mse": 0.0106345204637208,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.0915105,
+        "timestamp": 1741613374.775549,
         "context": "complex_query_test",
         "confidence": 0.0
       }
@@ -51,11 +51,11 @@
     {
       "name": "emotion_test",
       "passed": false,
-      "inferenceTime": 0.0001811981201171875,
+      "inferenceTime": 0.0001773834228515625,
       "mse": 0.011321651488126352,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.0917897,
+        "timestamp": 1741613374.7758365,
         "context": "complex_query_test",
         "confidence": 0.0
       }
@@ -63,11 +63,11 @@
     {
       "name": "location_test",
       "passed": false,
-      "inferenceTime": 0.00017881393432617188,
+      "inferenceTime": 0.00017642974853515625,
       "mse": 0.012371642575082357,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.0920672,
+        "timestamp": 1741613374.7761347,
         "context": "question_test",
         "confidence": 0.0
       }
@@ -75,11 +75,11 @@
     {
       "name": "recommendation_test",
       "passed": false,
-      "inferenceTime": 0.0001785755157470703,
+      "inferenceTime": 0.00018405914306640625,
       "mse": 0.012658172765958528,
       "outputSize": 64,
       "metadata": {
-        "timestamp": 1741577189.0923467,
+        "timestamp": 1741613374.7764034,
         "context": "question_test",
         "confidence": 0.0
       }
@@ -87,7 +87,7 @@
     {
       "name": "error_handling_test",
       "passed": false,
-      "inferenceTime": 0.008770465850830078,
+      "inferenceTime": 0.008490562438964844,
       "mse": 1.0,
       "outputSize": 0,
       "error": "Error during inference: Error during inference: mat1 and mat2 shapes cannot be multiplied (1x10000 and 768x256)"
@@ -97,65 +97,65 @@
     "totalTests": 8,
     "passedTests": 0,
     "failedTests": 8,
-    "totalTime": 0.011377573013305664,
-    "averageTime": 0.001422196626663208,
-    "timestamp": "2025-03-09T20:26:29.103003",
+    "totalTime": 0.01084136962890625,
+    "averageTime": 0.0013551712036132812,
+    "timestamp": "2025-03-10T06:29:34.786199",
     "perTestMetrics": {
       "greeting_test": {
-        "inferenceTime": 0.0011093616485595703,
+        "inferenceTime": 0.0011146068572998047,
         "mse": 0.01271546277058987,
         "confidence": 0.0,
         "context": "greeting_test"
       },
       "question_test": {
-        "inferenceTime": 0.0004324913024902344,
+        "inferenceTime": 0.0003159046173095703,
         "mse": 0.010113554198629233,
         "confidence": 0.0,
         "context": "question_test"
       },
       "command_test": {
-        "inferenceTime": 0.0003020763397216797,
+        "inferenceTime": 0.00018835067749023438,
         "mse": 0.011288278716352679,
         "confidence": 0.0,
         "context": "command_test"
       },
       "complex_query_test": {
-        "inferenceTime": 0.00022459030151367188,
+        "inferenceTime": 0.00019407272338867188,
         "mse": 0.0106345204637208,
         "confidence": 0.0,
         "context": "complex_query_test"
       },
       "emotion_test": {
-        "inferenceTime": 0.0001811981201171875,
+        "inferenceTime": 0.0001773834228515625,
         "mse": 0.011321651488126352,
         "confidence": 0.0,
         "context": "complex_query_test"
       },
       "location_test": {
-        "inferenceTime": 0.00017881393432617188,
+        "inferenceTime": 0.00017642974853515625,
         "mse": 0.012371642575082357,
         "confidence": 0.0,
         "context": "question_test"
       },
       "recommendation_test": {
-        "inferenceTime": 0.0001785755157470703,
+        "inferenceTime": 0.00018405914306640625,
         "mse": 0.012658172765958528,
         "confidence": 0.0,
         "context": "question_test"
       },
       "error_handling_test": {
-        "inferenceTime": 0.008770465850830078,
+        "inferenceTime": 0.008490562438964844,
         "mse": 1.0,
         "confidence": 0.0,
         "context": "unknown"
       }
     },
     "contextAnalysis": {
-      "command_test": 1,
       "complex_query_test": 2,
-      "unknown": 0,
+      "greeting_test": 1,
       "question_test": 3,
-      "greeting_test": 1
+      "command_test": 1,
+      "unknown": 0
     },
     "confidenceStats": {
       "mean": 0.0,
@@ -166,8 +166,8 @@
     "performanceProfile": {
       "meanMSE": 0.011586183282637117,
       "stdMSE": 0.0009467540527843371,
-      "medianInferenceTime": 0.0002633333206176758,
-      "95thPercentileTime": 0.006089079380035396
+      "medianInferenceTime": 0.00019121170043945312,
+      "95thPercentileTime": 0.005908977985382076
     }
   },
   "networkSummary": {

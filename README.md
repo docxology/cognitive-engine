@@ -2,6 +2,12 @@
 
 A powerful hybrid Neuro-Symbolic AI system that combines fractal symbolic representations with probabilistic neural models for enhanced reasoning and learning capabilities.
 
+## Quick Links
+
+- [Neural Tests Quick-Start Guide](NEURAL_TESTS.md) - Run the neural network test suite
+- [Neural Test Documentation](setup/NEURAL_TEST_GUIDE.md) - Detailed guide for neural tests
+- [Architecture Overview](docs/architecture.md) - System architecture details
+
 ## Overview
 
 The Cognitive Engine integrates two complementary approaches to artificial intelligence:
@@ -335,6 +341,83 @@ If you use Cognitive Engine in your research, please cite:
   year = {2023},
 }
 ```
+
+# Neural Network Test Suite
+
+This project includes a comprehensive neural network test suite with visualizations, metrics, and reports. The test suite executes various neural network tests and generates detailed visualizations to help understand the network's behavior and performance.
+
+## Quick Start
+
+To run the neural network tests with proper environment setup, use the all-in-one setup script:
+
+```bash
+./setup/setup_and_run.sh --visualize
+```
+
+This script will:
+1. Find a working Python installation
+2. Create a Python virtual environment
+3. Install all required dependencies
+4. Run the neural tests
+5. Generate visualizations and reports
+
+## Visualizations and Reports
+
+The test suite generates the following outputs:
+
+### Static Visualizations
+- Test Results Bar Chart with MSE values and inference times
+- Network Architecture Diagram showing layer parameters
+- Learning Curves with confidence intervals
+- Performance Radar Chart showing multiple metrics
+- Error Analysis Heatmap for failed tests
+- Detailed Network Architecture Visualization
+
+### Animated Visualizations
+- Training Progress Animation showing loss and accuracy over time
+- Network Activity Heatmap Animation showing neuron activations
+
+### Advanced Visualizations
+- 3D Network Architecture Visualization
+- Confidence vs MSE Bubble Chart
+- Context Distribution Pie Chart
+- Test Execution Heat Calendar
+
+### Reports
+- Detailed Markdown Test Report
+- HTML Visualization Report
+- Interactive Dashboard (when available)
+
+## Documentation
+
+For more detailed information, see the following documents:
+
+- [Neural Test Guide](setup/NEURAL_TEST_GUIDE.md) - Comprehensive guide to running neural tests
+- [Setup README](setup/README.md) - Information about the setup utilities
+
+## Command Line Options
+
+The neural test runner supports several options:
+
+```bash
+./setup/setup_and_run.sh --visualize --verbose --export-vis ./exported_visualizations
+```
+
+Available options:
+- `--visualize`: Generate visualizations and reports
+- `--fallback`: Force NumPy fallback mode if PyTorch is not available
+- `--verbose`: Enable verbose logging
+- `--config PATH`: Path to a custom configuration file
+- `--retrain`: Force model retraining
+- `--export-vis PATH`: Export visualizations to the specified directory
+
+## Directory Structure
+
+- `setup/`: Environment setup utilities
+- `tests/`: Neural network test scripts and data
+- `tests/results/`: Test results and reports
+- `visualizations/`: Generated visualizations
+- `models/`: Trained model files and recovery data
 
 
 

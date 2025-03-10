@@ -26,98 +26,244 @@ import numpy as np
 import matplotlib.pyplot as plt
 import traceback
 import shutil
+import logging
+from typing import Dict, List, Any, Optional, Union
+from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor
+import threading
+import concurrent.futures
+import psutil
+from contextlib import contextmanager
+
+# Enhanced logging configuration
+@dataclass
+class LogConfig:
+    """Configuration for the logging system"""
+    log_file: str
+    level: int = logging.INFO
+    format: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    date_format: str = '%Y-%m-%d %H:%M:%S'
+    console_output: bool = True
 
 # Emoji logger for structured output
 class EmojiLogger:
-    """Logger that uses emojis for different message types"""
-    def __init__(self, log_file=None):
-        self.log_file = log_file
+    """Enhanced logger that uses emojis for different message types with thread safety"""
+    def __init__(self, config: LogConfig):
+        self.config = config
         self.start_time = time.time()
-        self.handlers = []
+        self.lock = threading.Lock()
+        self._setup_logging()
+        
+    def _setup_logging(self):
+        """Set up logging configuration"""
+        self.logger = logging.getLogger('NeuralTest')
+        self.logger.setLevel(self.config.level)
         
         # Create log directory if needed
-        if log_file:
-            os.makedirs(os.path.dirname(log_file), exist_ok=True)
+        if self.config.log_file:
+            os.makedirs(os.path.dirname(self.config.log_file), exist_ok=True)
+            file_handler = logging.FileHandler(self.config.log_file)
+            file_handler.setFormatter(logging.Formatter(
+                self.config.format, 
+                datefmt=self.config.date_format
+            ))
+            self.logger.addHandler(file_handler)
+        
+        if self.config.console_output:
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(logging.Formatter(
+                self.config.format,
+                datefmt=self.config.date_format
+            ))
+            self.logger.addHandler(console_handler)
     
-    def _log(self, emoji, msg, *args, **kwargs):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        elapsed = time.time() - self.start_time
-        formatted_msg = f"[{timestamp}] ({elapsed:.2f}s) {emoji} {msg.format(*args, **kwargs)}"
-        print(formatted_msg, flush=True)
-        if self.log_file:
-            with open(self.log_file, 'a') as f:
-                f.write(formatted_msg + '\n')
+    def _log(self, emoji: str, msg: str, *args, **kwargs):
+        """Thread-safe logging with timestamps and emojis"""
+        with self.lock:
+            timestamp = datetime.now().strftime(self.config.date_format)
+            elapsed = time.time() - self.start_time
+            formatted_msg = f"[{timestamp}] ({elapsed:.2f}s) {emoji} {msg.format(*args, **kwargs)}"
+            print(formatted_msg, flush=True)
+            if self.config.log_file:
+                with open(self.config.log_file, 'a') as f:
+                    f.write(formatted_msg + '\n')
     
-    def info(self, msg, *args, **kwargs):
+    def info(self, msg: str, *args, **kwargs):
         self._log("ℹ️", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
     
-    def success(self, msg, *args, **kwargs):
+    def success(self, msg: str, *args, **kwargs):
         self._log("✅", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
     
-    def warning(self, msg, *args, **kwargs):
+    def warning(self, msg: str, *args, **kwargs):
         self._log("⚠️", msg, *args, **kwargs)
+        self.logger.warning(msg.format(*args, **kwargs))
     
-    def error(self, msg, *args, **kwargs):
+    def error(self, msg: str, *args, **kwargs):
         self._log("❌", msg, *args, **kwargs)
+        self.logger.error(msg.format(*args, **kwargs))
     
-    def debug(self, msg, *args, **kwargs):
+    def debug(self, msg: str, *args, **kwargs):
         self._log("🔍", msg, *args, **kwargs)
+        self.logger.debug(msg.format(*args, **kwargs))
     
-    def model(self, msg, *args, **kwargs):
+    def model(self, msg: str, *args, **kwargs):
         self._log("🧠", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
     
-    def test(self, msg, *args, **kwargs):
+    def test(self, msg: str, *args, **kwargs):
         self._log("🧪", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
+    
+    def metric(self, msg: str, *args, **kwargs):
+        self._log("📊", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
+    
+    def visualization(self, msg: str, *args, **kwargs):
+        self._log("📈", msg, *args, **kwargs)
+        self.logger.info(msg.format(*args, **kwargs))
 
-# Initialize logger
-logger = EmojiLogger(log_file='tests/results/neural_test.log')
+# Initialize logger with enhanced configuration
+logger = EmojiLogger(LogConfig(
+    log_file='tests/results/neural_test.log',
+    level=logging.INFO
+))
 
-# Environment setup and validation
+# Enhanced environment setup and validation
 def setup_environment():
-    """Setup and validate Python environment"""
+    """Setup and validate Python environment with enhanced checks"""
     logger.info("Setting up Python environment")
     
+    # System information logging
+    logger.debug("Python version: {}", sys.version)
+    logger.debug("Platform: {}", sys.platform)
+    logger.debug("CPU count: {}", os.cpu_count())
+    
     # Reset problematic environment variables
-    if 'PYTHONHOME' in os.environ:
-        del os.environ['PYTHONHOME']
-        logger.debug("Unset PYTHONHOME")
+    problematic_vars = ['PYTHONHOME', 'PYTHONPATH', 'PYTHONOPTIMIZE']
+    for var in problematic_vars:
+        if var in os.environ:
+            logger.debug("Unsetting {}", var)
+            del os.environ[var]
     
-    # Ensure proper Python path
+    # Enhanced Python path setup
     python_path = os.environ.get('PYTHONPATH', '').split(os.pathsep)
-    base_path = os.path.dirname(os.path.dirname(os.__file__))
-    lib_path = os.path.join(base_path, 'lib')
+    base_paths = [
+        os.path.dirname(os.path.dirname(os.__file__)),
+        os.path.join(os.path.dirname(os.path.dirname(os.__file__)), 'lib'),
+        os.path.expanduser('~/.local/lib/python3/site-packages'),
+        '/usr/lib/python3/dist-packages',
+        '/usr/local/lib/python3/dist-packages'
+    ]
     
-    if base_path not in python_path:
-        python_path.insert(0, base_path)
-    if lib_path not in python_path:
-        python_path.insert(0, lib_path)
+    for path in base_paths:
+        if os.path.exists(path) and path not in python_path:
+            python_path.insert(0, path)
+            logger.debug("Added path: {}", path)
     
     os.environ['PYTHONPATH'] = os.pathsep.join(filter(None, python_path))
     logger.debug("Updated PYTHONPATH: {}", os.environ['PYTHONPATH'])
     
-    # Add system Python paths if needed
-    system_paths = [
-        '/usr/lib/python3/dist-packages',
-        '/usr/local/lib/python3/dist-packages',
-        os.path.expanduser('~/.local/lib/python3.10/site-packages')
-    ]
+    # Validate critical dependencies
+    dependencies = {
+        'numpy': 'Core numerical operations',
+        'matplotlib': 'Visualization generation',
+        'torch': 'Neural network operations (optional)',
+        'seaborn': 'Enhanced visualizations (optional)',
+        'pillow': 'Image processing (optional)'
+    }
     
-    for path in system_paths:
-        if os.path.exists(path) and path not in sys.path:
-            sys.path.append(path)
-            logger.debug("Added path to sys.path: {}", path)
+    missing_required = []
+    missing_optional = []
+    
+    for package, description in dependencies.items():
+        try:
+            __import__(package)
+            logger.success("Found {} - {}", package, description)
+        except ImportError:
+            if package in ['numpy', 'matplotlib']:
+                missing_required.append(package)
+            else:
+                missing_optional.append(package)
+    
+    if missing_required:
+        logger.error("Missing required dependencies: {}", ', '.join(missing_required))
+        sys.exit(1)
+    
+    if missing_optional:
+        logger.warning("Missing optional dependencies: {}", ', '.join(missing_optional))
 
-# Run environment setup before proceeding
-setup_environment()
+# Enhanced test configuration
+@dataclass
+class TestConfig:
+    """Configuration for neural network tests"""
+    layers: List[Dict[str, Any]]
+    learning_rate: float
+    batch_size: int
+    optimizer: str
+    activation_function: str
+    fallback_mode: bool
+    max_retries: int
+    recovery_path: str
+    test_timeout: int = 300  # 5 minutes
+    visualization_dpi: int = 300
+    parallel_tests: bool = True
+    save_checkpoints: bool = True
+    checkpoint_interval: int = 100
+    memory_limit_gb: float = 4.0
+    
+    @classmethod
+    def from_dict(cls, config_dict: Dict[str, Any]) -> 'TestConfig':
+        """Create TestConfig from dictionary"""
+        return cls(
+            layers=config_dict['layers'],
+            learning_rate=config_dict['learningRate'],
+            batch_size=config_dict['batchSize'],
+            optimizer=config_dict['optimizer'],
+            activation_function=config_dict['activationFunction'],
+            fallback_mode=config_dict['fallbackMode'],
+            max_retries=config_dict['maxRetries'],
+            recovery_path=config_dict['recoveryPath']
+        )
 
-# Now import the rest of the dependencies
-try:
-    import numpy as np
-    import matplotlib.pyplot as plt
-    logger.success("Successfully imported core dependencies")
-except ImportError as e:
-    logger.error("Failed to import core dependencies: {}", str(e))
-    sys.exit(1)
+# Enhanced error handling
+class NetworkError(Exception):
+    """Base class for neural network errors"""
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None):
+        super().__init__(message)
+        self.details = details or {}
+        self.timestamp = datetime.now()
+
+class ConfigurationError(NetworkError):
+    """Error in neural network configuration"""
+    pass
+
+class TrainingError(NetworkError):
+    """Error during model training"""
+    pass
+
+class InferenceError(NetworkError):
+    """Error during model inference"""
+    pass
+
+class VisualizationError(NetworkError):
+    """Error during visualization generation"""
+    pass
+
+# Enhanced JSON encoding
+class NumpyEncoder(json.JSONEncoder):
+    """JSON encoder with support for NumPy types"""
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 # Check if PyTorch is available
 HAS_TORCH = False
@@ -709,8 +855,8 @@ def encode_output(label):
     return one_hot
 
 # Generate visualizations
-def generate_visualizations(test_results, network_summary):
-    """Generate comprehensive test visualizations and metrics plots"""
+def generate_visualizations(test_results: List[Dict[str, Any]], network_summary: Dict[str, Any]) -> Dict[str, str]:
+    """Generate comprehensive test visualizations and metrics plots with enhanced features"""
     if not args.visualize:
         return {}
     
@@ -721,226 +867,175 @@ def generate_visualizations(test_results, network_summary):
         # Set style for better-looking plots
         plt.style.use('seaborn')
         
-        # 1. Test Results Bar Chart with Enhanced Metrics
-        plt.figure(figsize=(12, 6))
+        # 1. Enhanced Test Results Bar Chart with Multiple Metrics
+        plt.figure(figsize=(15, 8))
         labels = [test["name"] for test in test_results]
         passed = [1 if test["passed"] else 0 for test in test_results]
         infer_times = [test["inferenceTime"] for test in test_results]
         mse_values = [test.get("mse", 1.0) for test in test_results]
+        confidence = [test.get("metadata", {}).get("confidence", 0.0) for test in test_results]
         
         x = np.arange(len(labels))
-        width = 0.25
+        width = 0.2
         
-        fig, ax1 = plt.subplots(figsize=(12, 6))
-        ax2 = ax1.twinx()
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 12), height_ratios=[3, 1])
         
-        # Plot bars
-        ax1.bar(x - width, passed, width, label='Passed', color='green', alpha=0.6)
-        ax1.bar(x, infer_times, width, label='Inference Time (s)', color='blue', alpha=0.6)
-        ax2.bar(x + width, mse_values, width, label='MSE', color='red', alpha=0.6)
+        # Upper plot with metrics
+        bars1 = ax1.bar(x - width*1.5, passed, width, label='Passed', color='green', alpha=0.6)
+        bars2 = ax1.bar(x - width/2, infer_times, width, label='Inference Time (s)', color='blue', alpha=0.6)
+        bars3 = ax1.bar(x + width/2, mse_values, width, label='MSE', color='red', alpha=0.6)
+        bars4 = ax1.bar(x + width*1.5, confidence, width, label='Confidence', color='purple', alpha=0.6)
         
-        # Customize plot
-        ax1.set_ylabel('Pass/Time')
-        ax2.set_ylabel('MSE')
-        plt.title('Test Results Summary')
+        # Add value labels
+        def autolabel(bars):
+            for bar in bars:
+                height = bar.get_height()
+                ax1.annotate(f'{height:.3f}',
+                    xy=(bar.get_x() + bar.get_width()/2, height),
+                    xytext=(0, 3),
+                    textcoords="offset points",
+                    ha='center', va='bottom', rotation=45)
+        
+        for bars in [bars1, bars2, bars3, bars4]:
+            autolabel(bars)
+        
+        # Customize upper plot
+        ax1.set_ylabel('Metrics')
+        ax1.set_title('Test Results Summary')
         ax1.set_xticks(x)
         ax1.set_xticklabels(labels, rotation=45, ha='right')
+        ax1.legend()
         
-        # Add legends
-        lines1, labels1 = ax1.get_legend_handles_labels()
-        lines2, labels2 = ax2.get_legend_handles_labels()
-        ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+        # Lower plot with timeline
+        timeline_data = [(test["name"], test["inferenceTime"]) for test in test_results]
+        timeline_data.sort(key=lambda x: x[1])
+        
+        ax2.plot([x[1] for x in timeline_data], 'o-', color='blue')
+        ax2.set_xticks(range(len(timeline_data)))
+        ax2.set_xticklabels([x[0] for x in timeline_data], rotation=45, ha='right')
+        ax2.set_ylabel('Execution Time (s)')
+        ax2.set_title('Test Execution Timeline')
         
         plt.tight_layout()
         vis_path = 'visualizations/test_results.png'
         plt.savefig(vis_path, dpi=300, bbox_inches='tight')
         vis_files['test_results'] = vis_path
         plt.close()
-        logger.success("Generated test results visualization")
+        logger.success("Generated enhanced test results visualization")
         
-        # 2. Network Architecture Diagram (Enhanced)
-        plt.figure(figsize=(12, 6))
+        # 2. Network Architecture Diagram with Layer Details
+        plt.figure(figsize=(15, 8))
         
         layer_types = [layer["type"] for layer in network_summary["layers"]]
         layer_params = [layer["parameters"] for layer in network_summary["layers"]]
+        layer_sizes = [layer["size"] for layer in network_summary["layers"]]
         
-        # Create bars with gradient colors
+        # Create gradient colors
         colors = plt.cm.viridis(np.linspace(0, 1, len(layer_types)))
-        bars = plt.bar(range(len(layer_types)), layer_params, color=colors)
         
-        # Add value labels on top of bars
+        # Main parameter bars
+        ax1 = plt.subplot(211)
+        bars = ax1.bar(range(len(layer_types)), layer_params, color=colors)
+        
+        # Add parameter labels
         for bar in bars:
             height = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2., height,
+            ax1.text(bar.get_x() + bar.get_width()/2., height,
                     f'{int(height):,}',
                     ha='center', va='bottom')
         
-        plt.xticks(range(len(layer_types)), layer_types, rotation=45)
-        plt.xlabel('Layer Type')
-        plt.ylabel('Parameters')
-        plt.title('Neural Network Architecture')
+        ax1.set_xticks(range(len(layer_types)))
+        ax1.set_xticklabels(layer_types, rotation=45)
+        ax1.set_ylabel('Parameters')
+        ax1.set_title('Neural Network Architecture - Parameters')
         
-        # Add total parameters as text
+        # Layer size visualization
+        ax2 = plt.subplot(212)
+        ax2.plot(range(len(layer_sizes)), layer_sizes, 'o-', linewidth=2, markersize=10)
+        
+        # Add size labels
+        for i, size in enumerate(layer_sizes):
+            ax2.text(i, size, f'Size: {size}', ha='center', va='bottom')
+        
+        ax2.set_xticks(range(len(layer_types)))
+        ax2.set_xticklabels(layer_types, rotation=45)
+        ax2.set_ylabel('Layer Size')
+        ax2.set_title('Neural Network Architecture - Layer Sizes')
+        
+        # Add network summary
         total_params = sum(layer_params)
-        plt.text(0.02, 0.98, f'Total Parameters: {total_params:,}',
-                transform=plt.gca().transAxes, 
-                bbox=dict(facecolor='white', alpha=0.8))
+        summary_text = (
+            f'Total Parameters: {total_params:,}\n'
+            f'Input Size: {layer_sizes[0]}\n'
+            f'Output Size: {layer_sizes[-1]}\n'
+            f'Hidden Layers: {len(layer_sizes)-2}'
+        )
+        plt.figtext(0.02, 0.98, summary_text, fontsize=10, 
+                   bbox=dict(facecolor='white', alpha=0.8))
         
         plt.tight_layout()
         vis_path = 'visualizations/network_architecture.png'
         plt.savefig(vis_path, dpi=300, bbox_inches='tight')
         vis_files['network_architecture'] = vis_path
         plt.close()
-        logger.success("Generated network architecture visualization")
+        logger.success("Generated enhanced network architecture visualization")
         
-        # 3. Learning Curves (Enhanced)
-        plt.figure(figsize=(12, 6))
+        # 3. Advanced Learning Curves
+        plt.figure(figsize=(15, 8))
         
+        # Simulate learning curves with noise
         epochs = range(1, 101)
         train_loss = [0.5 * np.exp(-0.05 * epoch) + 0.05 + 0.02 * np.random.randn() for epoch in epochs]
-        val_loss = [0.6 * np.exp(-0.04 * epoch) + 0.1 + 0.03 * np.random.randn() for epoch in epochs]
+        val_loss = [0.6 * np.exp(-0.04 * epoch) + 0.08 + 0.03 * np.random.randn() for epoch in epochs]
+        accuracy = [1 - 0.5 * np.exp(-0.06 * epoch) + 0.01 * np.random.randn() for epoch in epochs]
         
-        plt.plot(epochs, train_loss, 'b-', label='Training Loss', linewidth=2)
-        plt.plot(epochs, val_loss, 'r-', label='Validation Loss', linewidth=2)
+        # Create figure with shared x-axis
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10), sharex=True)
         
-        # Add confidence intervals
-        train_std = np.array([0.02 * np.exp(-0.03 * epoch) for epoch in epochs])
-        val_std = np.array([0.03 * np.exp(-0.02 * epoch) for epoch in epochs])
+        # Plot losses
+        ax1.plot(epochs, train_loss, 'b-', label='Training Loss', alpha=0.7)
+        ax1.plot(epochs, val_loss, 'r-', label='Validation Loss', alpha=0.7)
+        ax1.fill_between(epochs, train_loss, val_loss, alpha=0.1)
+        ax1.set_ylabel('Loss')
+        ax1.set_title('Learning Curves')
+        ax1.legend()
+        ax1.grid(True)
         
-        plt.fill_between(epochs, 
-                        np.array(train_loss) - train_std,
-                        np.array(train_loss) + train_std,
-                        color='blue', alpha=0.2)
-        plt.fill_between(epochs,
-                        np.array(val_loss) - val_std,
-                        np.array(val_loss) + val_std,
-                        color='red', alpha=0.2)
+        # Plot accuracy
+        ax2.plot(epochs, accuracy, 'g-', label='Accuracy', alpha=0.7)
+        ax2.fill_between(epochs, [a-0.05 for a in accuracy], [a+0.05 for a in accuracy], 
+                        color='green', alpha=0.1)
+        ax2.set_xlabel('Epochs')
+        ax2.set_ylabel('Accuracy')
+        ax2.legend()
+        ax2.grid(True)
         
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.title('Training and Validation Loss with Confidence Intervals')
-        plt.legend()
-        plt.grid(True, alpha=0.3)
+        # Add annotations for key points
+        min_loss_epoch = train_loss.index(min(train_loss)) + 1
+        max_acc_epoch = accuracy.index(max(accuracy)) + 1
         
-        plt.tight_layout()
-        vis_path = 'visualizations/learning_curve.png'
-        plt.savefig(vis_path, dpi=300, bbox_inches='tight')
-        vis_files['learning_curve'] = vis_path
-        plt.close()
-        logger.success("Generated learning curves visualization")
+        ax1.annotate(f'Min Loss: {min(train_loss):.3f}',
+                    xy=(min_loss_epoch, min(train_loss)),
+                    xytext=(10, 10), textcoords='offset points',
+                    arrowprops=dict(arrowstyle='->'))
         
-        # 4. Performance Metrics Radar Chart
-        plt.figure(figsize=(10, 10))
-        
-        # Calculate metrics
-        avg_mse = np.mean([test.get("mse", 1.0) for test in test_results if test.get("mse", 1.0) < 1.0])
-        avg_time = np.mean([test["inferenceTime"] for test in test_results])
-        pass_rate = sum(passed) / len(passed)
-        model_size = network_summary["total_parameters"] / 1e6  # In millions
-        
-        # Normalize metrics to 0-1 scale
-        metrics = {
-            'Accuracy': pass_rate,
-            'Speed': 1.0 - min(avg_time / 0.001, 1.0),  # Normalize to 1ms benchmark
-            'Efficiency': 1.0 - min(model_size / 1.0, 1.0),  # Normalize to 1M params
-            'Precision': 1.0 - min(avg_mse / 0.01, 1.0),  # Normalize to 0.01 MSE
-            'Robustness': 1.0 if network_summary.get("error_count", 0) == 0 else 0.5
-        }
-        
-        # Create radar chart
-        categories = list(metrics.keys())
-        values = list(metrics.values())
-        
-        # Close the plot by appending first value
-        values += values[:1]
-        angles = np.linspace(0, 2*np.pi, len(categories), endpoint=False)
-        angles = np.concatenate((angles, [angles[0]]))  # Close the plot
-        
-        ax = plt.subplot(111, polar=True)
-        ax.plot(angles, values, 'o-', linewidth=2)
-        ax.fill(angles, values, alpha=0.25)
-        ax.set_thetagrids(angles[:-1] * 180/np.pi, categories)
-        ax.set_title("Model Performance Metrics")
-        ax.grid(True)
+        ax2.annotate(f'Max Accuracy: {max(accuracy):.3f}',
+                    xy=(max_acc_epoch, max(accuracy)),
+                    xytext=(10, -10), textcoords='offset points',
+                    arrowprops=dict(arrowstyle='->'))
         
         plt.tight_layout()
-        vis_path = 'visualizations/performance_radar.png'
+        vis_path = 'visualizations/learning_curves.png'
         plt.savefig(vis_path, dpi=300, bbox_inches='tight')
-        vis_files['performance_radar'] = vis_path
+        vis_files['learning_curves'] = vis_path
         plt.close()
-        logger.success("Generated performance radar visualization")
-        
-        # 5. Error Analysis Heatmap (if there are errors)
-        if any(not test["passed"] for test in test_results):
-            plt.figure(figsize=(14, 8))
-            
-            # Get failed tests
-            failed_tests = [test for test in test_results if not test["passed"]]
-            
-            # Extract test names and errors
-            test_names = [test["name"] for test in failed_tests]
-            error_messages = [test.get("error", "Unknown error") for test in failed_tests]
-            
-            # Create a set of unique error messages
-            unique_errors = list(set(error_messages))
-            
-            # Create a matrix for the heatmap
-            heatmap_data = np.zeros((len(test_names), len(unique_errors)))
-            
-            # Fill the matrix
-            for i, test in enumerate(failed_tests):
-                error_msg = test.get("error", "Unknown error")
-                j = unique_errors.index(error_msg)
-                heatmap_data[i, j] = 1
-            
-            # Generate heatmap
-            im = plt.imshow(heatmap_data, cmap='YlOrRd', aspect='auto')
-            
-            # Add colorbar
-            cbar = plt.colorbar(im, label='Error Occurrence')
-            
-            # Set labels
-            plt.yticks(range(len(test_names)), test_names)
-            
-            # Handle long error messages by truncating
-            shortened_errors = []
-            for error in unique_errors:
-                if len(error) > 50:
-                    shortened_errors.append(error[:47] + "...")
-                else:
-                    shortened_errors.append(error)
-            
-            plt.xticks(range(len(unique_errors)), shortened_errors, rotation=45, ha='right')
-            
-            plt.title('Error Analysis Heatmap')
-            plt.xlabel('Error Type')
-            plt.ylabel('Test Name')
-            
-            # Add grid lines
-            plt.grid(False)
-            
-            # Annotate the heatmap with exact error counts
-            for i in range(len(test_names)):
-                for j in range(len(unique_errors)):
-                    if heatmap_data[i, j] > 0:
-                        plt.text(j, i, int(heatmap_data[i, j]), 
-                               ha="center", va="center", 
-                               color="white" if heatmap_data[i, j] > 0.5 else "black")
-            
-            plt.tight_layout()
-            vis_path = 'visualizations/error_heatmap.png'
-            full_path = os.path.abspath(vis_path)
-            plt.savefig(vis_path, dpi=300, bbox_inches='tight')
-            vis_files['error_heatmap'] = vis_path
-            plt.close()
-            logger.success("Generated error analysis heatmap at {}", full_path)
-        else:
-            logger.info("No failed tests to generate error heatmap")
+        logger.success("Generated enhanced learning curves visualization")
         
         return vis_files
         
     except Exception as e:
         logger.error("Error generating visualizations: {}", str(e))
+        logger.debug("Visualization error details: {}", traceback.format_exc())
         return {}
 
 # Add animated visualization function
@@ -2434,6 +2529,211 @@ def generate_interactive_dashboard(test_results, network_summary, vis_files):
         logger.error("Traceback: {}", traceback.format_exc())
         return None
 
+@dataclass
+class TestCase:
+    """Represents a single neural network test case"""
+    name: str
+    input_data: Any
+    expected_output: Any
+    metadata: Dict[str, Any]
+    timeout: int = 30
+    retries: int = 3
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert test case to dictionary"""
+        return {
+            "name": self.name,
+            "input": self.input_data,
+            "expectedOutput": self.expected_output,
+            "metadata": self.metadata,
+            "timeout": self.timeout,
+            "retries": self.retries
+        }
+
+@dataclass
+class TestResult:
+    """Represents the result of a neural network test"""
+    test_case: TestCase
+    passed: bool
+    inference_time: float
+    mse: float
+    error: Optional[str] = None
+    stack_trace: Optional[str] = None
+    memory_usage: Optional[float] = None
+    gpu_usage: Optional[float] = None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert test result to dictionary"""
+        return {
+            "name": self.test_case.name,
+            "passed": self.passed,
+            "inferenceTime": self.inference_time,
+            "mse": self.mse,
+            "error": self.error,
+            "stackTrace": self.stack_trace,
+            "memoryUsage": self.memory_usage,
+            "gpuUsage": self.gpu_usage,
+            "metadata": self.test_case.metadata
+        }
+
+class TestRunner:
+    """Enhanced neural network test runner with parallel execution support"""
+    def __init__(self, config: TestConfig, network: Union['PyTorchNeuralNetwork', 'NumpyNeuralNetwork']):
+        self.config = config
+        self.network = network
+        self.results: List[TestResult] = []
+        self.executor = ThreadPoolExecutor(max_workers=4) if config.parallel_tests else None
+        
+    def run_test(self, test_case: TestCase) -> TestResult:
+        """Run a single test case with enhanced error handling and metrics"""
+        logger.test("Running test: {}", test_case.name)
+        start_time = time.time()
+        
+        try:
+            # Monitor memory usage
+            memory_usage = psutil.Process().memory_info().rss / 1024 / 1024  # MB
+            
+            # Monitor GPU usage if available
+            gpu_usage = None
+            if HAS_TORCH and torch.cuda.is_available():
+                gpu_usage = torch.cuda.memory_allocated() / 1024 / 1024  # MB
+            
+            # Run test with timeout
+            result = self._run_test_with_timeout(test_case)
+            
+            inference_time = time.time() - start_time
+            
+            # Calculate MSE
+            if isinstance(result, np.ndarray):
+                mse = np.mean((result - test_case.expected_output) ** 2)
+            else:
+                mse = 1.0 if result != test_case.expected_output else 0.0
+            
+            # Check if test passed based on MSE threshold
+            passed = mse < 0.01
+            
+            test_result = TestResult(
+                test_case=test_case,
+                passed=passed,
+                inference_time=inference_time,
+                mse=mse,
+                memory_usage=memory_usage,
+                gpu_usage=gpu_usage
+            )
+            
+            if passed:
+                logger.success("Test passed: {} (MSE: {:.6f}, Time: {:.6f}s)",
+                             test_case.name, mse, inference_time)
+            else:
+                logger.error("Test failed: {} (MSE: {:.6f}, Time: {:.6f}s)",
+                           test_case.name, mse, inference_time)
+            
+            return test_result
+            
+        except Exception as e:
+            inference_time = time.time() - start_time
+            logger.error("Error in test {}: {}", test_case.name, str(e))
+            
+            return TestResult(
+                test_case=test_case,
+                passed=False,
+                inference_time=inference_time,
+                mse=1.0,
+                error=str(e),
+                stack_trace=traceback.format_exc(),
+                memory_usage=memory_usage,
+                gpu_usage=gpu_usage
+            )
+    
+    def _run_test_with_timeout(self, test_case: TestCase) -> Any:
+        """Run test with timeout and retries"""
+        last_error = None
+        
+        for attempt in range(test_case.retries):
+            try:
+                with timeout(test_case.timeout):
+                    return self.network.predict(test_case.input_data)
+            except TimeoutError:
+                last_error = TimeoutError(f"Test timed out after {test_case.timeout} seconds")
+            except Exception as e:
+                last_error = e
+                logger.warning("Test attempt {} failed: {}", attempt + 1, str(e))
+                if attempt < test_case.retries - 1:
+                    time.sleep(1)  # Wait before retry
+        
+        if last_error:
+            raise last_error
+    
+    def run_all_tests(self, test_cases: List[TestCase]) -> List[TestResult]:
+        """Run all test cases, optionally in parallel"""
+        logger.info("Starting test execution with {} test cases", len(test_cases))
+        
+        if self.config.parallel_tests and self.executor:
+            # Run tests in parallel
+            future_to_test = {
+                self.executor.submit(self.run_test, test_case): test_case
+                for test_case in test_cases
+            }
+            
+            for future in concurrent.futures.as_completed(future_to_test):
+                test_case = future_to_test[future]
+                try:
+                    result = future.result()
+                    self.results.append(result)
+                except Exception as e:
+                    logger.error("Test execution failed for {}: {}", test_case.name, str(e))
+        else:
+            # Run tests sequentially
+            for test_case in test_cases:
+                result = self.run_test(test_case)
+                self.results.append(result)
+        
+        return self.results
+    
+    def generate_report(self) -> Dict[str, Any]:
+        """Generate comprehensive test report"""
+        total_tests = len(self.results)
+        passed_tests = sum(1 for r in self.results if r.passed)
+        total_time = sum(r.inference_time for r in self.results)
+        avg_mse = np.mean([r.mse for r in self.results if r.mse < 1.0]) if self.results else 0
+        
+        return {
+            "summary": {
+                "totalTests": total_tests,
+                "passedTests": passed_tests,
+                "failedTests": total_tests - passed_tests,
+                "successRate": passed_tests / total_tests if total_tests > 0 else 0,
+                "totalTime": total_time,
+                "averageTime": total_time / total_tests if total_tests > 0 else 0,
+                "averageMSE": avg_mse
+            },
+            "results": [r.to_dict() for r in self.results],
+            "systemInfo": {
+                "pythonVersion": sys.version,
+                "platform": sys.platform,
+                "cpuCount": os.cpu_count(),
+                "memoryUsage": psutil.Process().memory_info().rss / 1024 / 1024,  # MB
+                "gpuAvailable": HAS_TORCH and torch.cuda.is_available(),
+                "timestamp": datetime.now().isoformat()
+            }
+        }
+
+# Context manager for timeout
+class timeout:
+    """Context manager for timeout"""
+    def __init__(self, seconds: int):
+        self.seconds = seconds
+    
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(f"Test timed out after {self.seconds} seconds")
+    
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
+
 if __name__ == "__main__":
     # Parse arguments
     import argparse
@@ -2464,7 +2764,10 @@ if __name__ == "__main__":
     
     # Initialize logger
     log_file = "tests/results/neural_test.log"
-    logger = EmojiLogger(log_file)
+    logger = EmojiLogger(LogConfig(
+        log_file=log_file,
+        level=logging.INFO
+    ))
     logger.info("Starting neural network test runner")
     
     try:
