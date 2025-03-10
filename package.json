@@ -1,0 +1,25 @@
+{
+  "name": "cognitive-engine",
+  "version": "1.0.0",
+  "description": "Hybrid Neuro-Symbolic AI System",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:fractal": "jest tests/fractal.test.ts",
+    "test:probabilistic": "jest tests/probabilistic.test.ts", 
+    "test:memory": "jest tests/memory.test.ts",
+    "test:unipixel": "jest tests/unipixel.test.ts",
+    "test:mmm": "jest tests/mmm.test.ts",
+    "test:codeexec": "jest tests/codeexec.test.ts",
+    "test:peff": "jest tests/peff.test.ts",
+    "test:all": "jest tests/*.test.ts --verbose",
+    "test:runner": "ts-node tests/runner.ts"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.24",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+} 

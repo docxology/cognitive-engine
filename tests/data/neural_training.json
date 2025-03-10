@@ -1,0 +1,38 @@
+[
+  {
+    "input": "How can I help you today?",
+    "expectedOutput": "greeting",
+    "metadata": {
+      "timestamp": 1741569351.554255,
+      "context": "user_interaction",
+      "confidence": 0.95
+    }
+  },
+  {
+    "input": "What's the weather like?",
+    "expectedOutput": "question",
+    "metadata": {
+      "timestamp": 1741569351.554256,
+      "context": "information_request",
+      "confidence": 0.92
+    }
+  },
+  {
+    "input": "Set an alarm for 7am tomorrow",
+    "expectedOutput": "command",
+    "metadata": {
+      "timestamp": 1741569351.5542562,
+      "context": "action_request",
+      "confidence": 0.98
+    }
+  },
+  {
+    "input": "I need to find a nearby restaurant that serves authentic Italian cuisine",
+    "expectedOutput": "complex_query",
+    "metadata": {
+      "timestamp": 1741569351.5542572,
+      "context": "complex_request",
+      "confidence": 0.85
+    }
+  }
+]

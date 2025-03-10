@@ -1,0 +1,27 @@
+{
+  "layers": [
+    {
+      "size": 768,
+      "type": "input"
+    },
+    {
+      "size": 256,
+      "type": "hidden"
+    },
+    {
+      "size": 128,
+      "type": "hidden"
+    },
+    {
+      "size": 64,
+      "type": "output"
+    }
+  ],
+  "learningRate": 0.001,
+  "batchSize": 32,
+  "optimizer": "adam",
+  "activationFunction": "relu",
+  "fallbackMode": false,
+  "maxRetries": 3,
+  "recoveryPath": "models/recovery"
+}
