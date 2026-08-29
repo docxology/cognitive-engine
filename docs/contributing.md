@@ -4,7 +4,7 @@ Thank you for your interest in contributing to the Cognitive Engine project! Thi
 
 ## Code of Conduct
 
-Please read and follow our [Code of Conduct](code_of_conduct.md) to help us maintain a positive and inclusive community.
+Please read and follow our our community guidelines (a CODE_OF_CONDUCT.md is not yet present in this repository — needs owner input) to help us maintain a positive and inclusive community.
 
 ## How to Contribute
 

@@ -24,7 +24,7 @@ engine = HybridCognitiveEngine()
 | `find_patterns(element_ids)` | Find patterns between elements |
 | `find_cross_layer_patterns()` | Find patterns across all layers |
 
-See the [Engine API](engine.md) for complete details on the main engine API.
+See the [Engine API]../code_execution.md for complete details on the main engine API.
 
 ## Module APIs
 
@@ -43,7 +43,7 @@ symbol = Symbol("example", properties={"key": "value"})
 fs.add_symbol(symbol, layer=2)
 ```
 
-See the [Fractal API](fractal.md) for complete details.
+See the [Fractal API]../fractal.md for complete details.
 
 ### Probabilistic System
 
@@ -57,7 +57,7 @@ llm = LLMInterface(model="gpt-4")
 result = llm.process("Generate creative ideas for sustainable energy")
 ```
 
-See the [Probabilistic API](probabilistic.md) for complete details.
+See the [Probabilistic API]../probabilistic.md for complete details.
 
 ### Memory System
 
@@ -72,14 +72,14 @@ memory.store(content="Important information", metadata={"topic": "example"})
 result = memory.retrieve(query="example", limit=5)
 ```
 
-See the [Memory API](memory.md) for complete details.
+See the [Memory API]../memory.md for complete details.
 
 ### Specialized Module APIs
 
-- [Unipixel API](unipixel.md)
-- [MMM API](mmm.md)
-- [Code Execution API](code_execution.md)
-- [PEFF API](peff.md)
+- [Unipixel API]../unipixel.md
+- [MMM API]../mmm.md
+- [Code Execution API]../code_execution.md
+- [PEFF API]../peff.md
 
 ## API Design Philosophy
 

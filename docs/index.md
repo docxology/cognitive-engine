@@ -11,8 +11,8 @@ Welcome to the Cognitive Engine documentation. This documentation provides compr
 ## Architecture
 
 - [System Overview](architecture.md)
-- [Core Concepts](concepts.md)
-- [Component Interactions](interactions.md)
+- [Design Principles](design_principles.md)
+- [System Overview](architecture.md)
 
 ## Core Modules
 
@@ -30,20 +30,20 @@ Welcome to the Cognitive Engine documentation. This documentation provides compr
 ## API Reference
 
 - [Main API](api/index.md)
-- [Fractal API](api/fractal.md)
-- [Probabilistic API](api/probabilistic.md)
-- [Memory API](api/memory.md)
+- [Fractal System](fractal.md)
+- [Probabilistic System](probabilistic.md)
+- [Memory System](memory.md)
 
 ## Developer Resources
 
 - [Contributing Guide](contributing.md)
-- [Development Setup](development.md)
-- [Testing](testing.md)
+- [Installation Guide](installation.md)
+- [Neural Network Testing](neural_network_testing.md)
 - [Design Principles](design_principles.md)
 
 ## Additional Resources
 
 - [Frequently Asked Questions](faq.md)
-- [Glossary](glossary.md)
+- [FAQ](faq.md)
 - [Roadmap](roadmap.md)
-- [Research Publications](publications.md) 
+- [Roadmap](roadmap.md) 

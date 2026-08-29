@@ -182,6 +182,6 @@ test_neural:
 ## Reference
 
 For more details, refer to:
-- [API Documentation](./api_reference.md)
-- [Model Architecture Guide](./model_architecture.md)
-- [Visualization Guide](./visualizations.md) 
+- [Architecture Overview](./architecture.md)
+- [Architecture Visualization](./architecture_visualization.md)
+- [Examples](./examples/index.md) 
