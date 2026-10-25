@@ -83,8 +83,8 @@ detector = PatternDetector(
 
 # Detect patterns in symbolic structures
 patterns = detector.detect_patterns(
-    symbols=engine.symbolic_system.get_symbols(layer=3),
-    relations=engine.symbolic_system.get_relations()
+    symbols=engine.symbolic.get_symbols(layer=3),
+    relations=engine.symbolic.get_relations()
 )
 
 # Display detected patterns

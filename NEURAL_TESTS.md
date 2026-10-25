@@ -22,7 +22,7 @@ This will:
 If you're working in Cursor IDE, use:
 
 ```bash
-./run_tests.sh --force-cursor-mode --visualize
+./setup/setup_and_run.sh --force-cursor-mode --visualize
 ```
 
 This will show information about existing visualizations without trying to execute tests in the Cursor environment.

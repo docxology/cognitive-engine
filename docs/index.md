@@ -12,7 +12,6 @@ Welcome to the Cognitive Engine documentation. This documentation provides compr
 
 - [System Overview](architecture.md)
 - [Design Principles](design_principles.md)
-- [System Overview](architecture.md)
 
 ## Core Modules
 
@@ -44,6 +43,4 @@ Welcome to the Cognitive Engine documentation. This documentation provides compr
 ## Additional Resources
 
 - [Frequently Asked Questions](faq.md)
-- [FAQ](faq.md)
-- [Roadmap](roadmap.md)
 - [Roadmap](roadmap.md) 

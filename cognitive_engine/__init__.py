@@ -9,7 +9,7 @@ from cognitive_engine import probabilistic
 from cognitive_engine import memory
 from cognitive_engine.unipixel import unipixel
 from cognitive_engine import mmm
-from cognitive_engine import perplexity_api
+from cognitive_engine.llm import perplexity_api
 from cognitive_engine import code_execution
 from cognitive_engine import peff
 
@@ -19,7 +19,7 @@ from cognitive_engine.engine import HybridCognitiveEngine
 # Import key classes from the new modules for easier access
 from cognitive_engine.unipixel.unipixel import Unipixel, UnipixelRegistry
 from cognitive_engine.mmm import MagicalMathModel, CognitivePattern
-from cognitive_engine.perplexity_api import PerplexityAPI, PerplexitySearchEngine
+from cognitive_engine.llm.perplexity_api import PerplexityAPI, PerplexitySearchEngine
 from cognitive_engine.code_execution import CodeExecutor
 from cognitive_engine.peff import ParadiseEnergyFractalForce
 
@@ -41,4 +41,4 @@ __all__ = [
     'PerplexitySearchEngine',
     'CodeExecutor',
     'ParadiseEnergyFractalForce'
-] 
+]

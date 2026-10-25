@@ -132,7 +132,7 @@ Basic installation:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a virtual environment
@@ -156,7 +156,7 @@ engine = HybridCognitiveEngine()
 
 # Process a query
 result = engine.process("Explain the relationship between climate change and economic policy")
-print(result['response'])
+print(result['neural_outputs'])
 ```
 
 For more examples, see the [Quick Start Guide](quickstart.md) and the [examples/](../examples/) directory.
@@ -167,47 +167,48 @@ You can customize the engine in several ways:
 
 1. **Component Replacement**: Replace default components with custom implementations
    ```python
-   engine = HybridCognitiveEngine(
-       symbolic_system=custom_fractal_system,
-       neural_system=custom_llm,
-       memory_system=custom_memory
-   )
+   engine = HybridCognitiveEngine()
+   engine.symbolic = custom_fractal_system
+   engine.neural = custom_llm
+   engine.memory = custom_memory
    ```
 
 2. **Configuration Parameters**: Adjust parameters for various components
    ```python
    engine = HybridCognitiveEngine(
        config={
-           "fractal": {"levels": 5, "binding_threshold": 0.7},
-           "memory": {"consolidation_interval": 3600},
-           "neural": {"temperature": 0.7, "top_p": 0.9}
+           "fractal_levels": 5,
+           "use_llm": True,
+           "llm_model": "gpt-4"
        }
    )
    ```
 
 3. **Extension Modules**: Create custom modules that extend the base functionality
    ```python
-   from cognitive_engine import register_module
+   class MyCustomModule:
+       def process(self, input_data):
+           return {'result': 'processed'}
    
-   register_module("my_custom_module", MyCustomModule())
    engine = HybridCognitiveEngine()
-   result = engine.modules.my_custom_module.process(data)
+   engine.unipixel_registry  # module components stay accessible as attributes
+   result = MyCustomModule().process(data)
    ```
 
 ### How do I store and retrieve memories?
 
 ```python
 # Store information
-memory_id = engine.memory_system.store(
-    content="Important information to remember",
+memory_id = engine.memory.store(
+    key="important-information",
+    value="Important information to remember",
     metadata={"topic": "example", "importance": 0.8}
 )
 
 # Retrieve information
-results = engine.memory_system.retrieve(
+results = engine.memory.retrieve(
     query="important information",
-    limit=5,
-    sort_by="relevance"
+    k=5
 )
 ```
 
@@ -224,18 +225,11 @@ Yes, the Cognitive Engine supports continuous learning through:
 To enable continuous learning:
 
 ```python
-# Enable continuous learning
-engine.enable_continuous_learning(
-    learning_rate=0.1,
-    feedback_integration=True,
-    periodic_consolidation=True
-)
-
-# Provide feedback on a response
-engine.provide_feedback(
-    response_id="response123",
-    feedback_score=0.8,
-    feedback_comments="Good response, but could include more examples"
+# Accumulate new information and feedback in memory
+memory_id = engine.memory.store(
+    key="learning:response123",
+    value="Good response, but could include more examples",
+    metadata={"feedback_score": 0.8}
 )
 ```
 
@@ -300,9 +294,9 @@ To extend with custom components:
 
 1. **Create Component Class**: Implement the appropriate interface
    ```python
-   from cognitive_engine.fractal import FractalSystemInterface
+   from cognitive_engine.fractal import FractalSystem
    
-   class MyCustomFractalSystem(FractalSystemInterface):
+   class MyCustomFractalSystem(FractalSystem):
        def __init__(self, custom_param=None):
            self.custom_param = custom_param
            # Implementation...
@@ -310,9 +304,8 @@ To extend with custom components:
 
 2. **Register Component**: Register your component with the engine
    ```python
-   engine = HybridCognitiveEngine(
-       symbolic_system=MyCustomFractalSystem(custom_param=42)
-   )
+   engine = HybridCognitiveEngine()
+   engine.symbolic = MyCustomFractalSystem(custom_param=42)
    ```
 
 3. **Add Custom Methods**: Extend functionality with additional methods
@@ -372,8 +365,10 @@ If you encounter an error:
 3. **Search Issues**: Look for similar issues in the GitHub repository
 4. **Run Diagnostics**: Use the diagnostic tools
    ```python
-   from cognitive_engine import run_diagnostics
-   run_diagnostics()
+   from cognitive_engine import HybridCognitiveEngine
+
+   engine = HybridCognitiveEngine()
+   print(engine.to_json())
    ```
 5. **Ask Community**: Post your question in the community forum
 6. **Submit Issue**: If it's a new issue, submit it on GitHub
@@ -384,27 +379,31 @@ For performance diagnostics:
 
 1. **Profile Code**: Use Python profiling tools
    ```python
-   from cognitive_engine import profile_engine
-   profile_results = profile_engine(engine, task="my_task")
+   import cProfile, pstats
+
+   cProfile.run('engine.process("my_task")', 'engine.prof')
+   pstats.Stats('engine.prof').sort_stats('cumulative').print_stats(20)
    ```
 
 2. **Monitor Resources**: Check resource usage during operation
    ```python
-   from cognitive_engine import resource_monitor
-   with resource_monitor():
-       result = engine.process("Complex task")
+   import resource
+
+   result = engine.process("Complex task")
+   print(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
    ```
 
 3. **Benchmark Components**: Test individual components
    ```python
-   from cognitive_engine import benchmark
-   benchmark_results = benchmark.run_suite(engine)
+   import timeit
+
+   elapsed = timeit.timeit(lambda: engine.process("my_task"), number=5)
    ```
 
 4. **Optimization Suggestions**: Get suggestions for optimization
    ```python
-   from cognitive_engine import optimizer
-   suggestions = optimizer.analyze(engine)
+   # Inspect the active configuration to guide tuning
+   print(engine.config)
    ```
 
 ### Where can I get additional help?

@@ -126,7 +126,7 @@ symbols = engine.neural_to_symbolic_translator.extract_symbols(neural_result)
 
 # Add to symbolic system
 for symbol in symbols:
-    engine.symbolic_system.add_symbol(symbol, layer=3)
+    engine.symbolic.add_symbol(symbol, layer=3)
 
 # Perform hybrid reasoning
 result = engine.hybrid_reason(

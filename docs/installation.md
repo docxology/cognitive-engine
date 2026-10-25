@@ -6,14 +6,14 @@ This guide provides detailed instructions for installing the Cognitive Engine on
 
 ### Minimum Requirements
 
-- **Python**: 3.8 or higher
+- **Python**: 3.10 or higher
 - **RAM**: 8GB (16GB recommended for larger models)
 - **Disk Space**: 1GB for the basic installation
 - **Operating System**: Windows 10+, macOS 10.15+, Ubuntu 20.04+ or other Linux distributions
 
 ### Recommended Specifications
 
-- **Python**: 3.10 or higher
+- **Python**: 3.12 or higher
 - **RAM**: 16GB or more
 - **Disk Space**: 5GB+ (for storing memory and models)
 - **GPU**: NVIDIA GPU with CUDA support (for accelerated neural processing)
@@ -29,7 +29,7 @@ This is the simplest installation method, suitable for most users.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a virtual environment
@@ -54,11 +54,11 @@ If you use Anaconda or Miniconda for Python environment management:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a conda environment
-conda create -n cognitive-engine python=3.10
+conda create -n cognitive-engine python=3.12
 conda activate cognitive-engine
 
 # Install dependencies
@@ -74,15 +74,15 @@ For installations that will leverage GPU acceleration:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a virtual environment
 python -m venv venv
 source venv/bin/activate  # or appropriate activation command for your OS
 
-# Install PyTorch with CUDA support (example for CUDA 11.8)
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# Install PyTorch with CUDA support
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
 # Install other dependencies
 pip install -r requirements.txt
@@ -91,27 +91,11 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Method 4: Docker Installation
-
-For containerized deployment:
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
-cd cognitive-engine
-
-# Build the Docker image
-docker build -t cognitive-engine .
-
-# Run the container
-docker run -it --gpus all -v $(pwd)/data:/app/data cognitive-engine
-```
-
 ## Platform-Specific Instructions
 
 ### Windows
 
-1. Install Python 3.8+ from the [official website](https://www.python.org/downloads/windows/)
+1. Install Python 3.10+ from the [official website](https://www.python.org/downloads/windows/)
 2. Install Git from the [official website](https://git-scm.com/download/win)
 3. Open Command Prompt or PowerShell
 4. Follow the Basic Installation steps above
@@ -122,7 +106,7 @@ Additional Windows-specific notes:
 
 ### macOS
 
-1. Install Python 3.8+ (use Homebrew: `brew install python@3.10`)
+1. Install Python 3.10+ (use Homebrew: `brew install python@3.12`)
 2. Install Git (use Homebrew: `brew install git`)
 3. Open Terminal
 4. Follow the Basic Installation steps above
@@ -133,7 +117,7 @@ Additional macOS-specific notes:
 
 ### Linux
 
-1. Install Python 3.8+ using your distribution's package manager
+1. Install Python 3.10+ using your distribution's package manager
    - Ubuntu/Debian: `sudo apt-get install python3.10 python3.10-venv python3-pip`
    - Fedora: `sudo dnf install python3.10 python3-pip`
 2. Install Git using your distribution's package manager
@@ -148,30 +132,34 @@ After installation, you'll need to configure some aspects of the Cognitive Engin
 
 ### API Keys
 
-If you plan to use external LLM services, you'll need to configure your API keys:
+Credentials for external services are passed through the engine configuration, or picked up
+from the environment by the component that needs them:
 
 ```python
-from cognitive_engine import set_api_credentials
+import os
 
-# Set OpenAI API key (for GPT-4, etc.)
-set_api_credentials(
-    service_name="openai",
-    api_key="your-openai-api-key"
+from cognitive_engine import HybridCognitiveEngine
+
+# Perplexity credentials for web search; the search engine also falls back to
+# the PERPLEXITY_API_KEY environment variable when no key is passed.
+engine = HybridCognitiveEngine(
+    config={
+        "perplexity_api_key": os.environ.get("PERPLEXITY_API_KEY"),
+        "perplexity_cache_dir": "./.perplexity_cache",
+    }
 )
-
-# Set other API credentials as needed
-set_api_credentials(
-    service_name="anthropic",
-    api_key="your-anthropic-api-key"
-)
 ```
 
-Alternatively, you can create a `.env` file in the project root with your API keys:
+The LLM interface reads `OPENAI_API_KEY` from the environment when no explicit key is given,
+so exporting the keys in your shell is enough:
 
+```bash
+export PERPLEXITY_API_KEY=your-perplexity-api-key
+export OPENAI_API_KEY=your-openai-api-key
 ```
-OPENAI_API_KEY=your-openai-api-key
-ANTHROPIC_API_KEY=your-anthropic-api-key
-```
+
+There is no automatic `.env` loader; export the variables (or load the file in your shell)
+before starting the engine.
 
 ### Memory Storage
 
@@ -180,13 +168,14 @@ Configure the memory storage location:
 ```python
 from cognitive_engine.memory import PervasiveMemory
 
-# Create memory with custom storage path
-memory = PervasiveMemory(storage_path="/path/to/your/memory/store")
+# Create memory with a custom persistence path
+memory = PervasiveMemory(storage_config={"persistence_path": "/path/to/your/memory/store"})
 ```
 
 ### GPU Configuration
 
-If you have a compatible GPU, you can configure PyTorch to use it:
+If you have a compatible GPU, check that PyTorch can see it before building torch-backed
+components:
 
 ```python
 import torch
@@ -199,10 +188,10 @@ else:
     device = torch.device("cpu")
     print("Using CPU")
 
-# Configure the engine to use this device
+# Torch-backed components use the CUDA device automatically when it is available
 from cognitive_engine import HybridCognitiveEngine
 
-engine = HybridCognitiveEngine(device=device)
+engine = HybridCognitiveEngine()
 ```
 
 ## Verification
@@ -217,12 +206,12 @@ engine = HybridCognitiveEngine()
 
 # Try a simple query
 result = engine.process("Hello, Cognitive Engine!")
-print(result['response'])
+print(result['neural_outputs'])
 
 # Check if components are loaded correctly
-print(f"Fractal System Levels: {engine.symbolic_system.levels}")
-print(f"Neural System Type: {type(engine.neural_system).__name__}")
-print(f"Memory System Path: {engine.memory_system.storage_path}")
+print(f"Fractal System Levels: {engine.symbolic.levels}")
+print(f"Neural System Type: {type(engine.neural).__name__}")
+print(f"Memory System Type: {type(engine.memory).__name__}")
 ```
 
 ## Troubleshooting
@@ -266,13 +255,11 @@ PermissionError: [Errno 13] Permission denied
 
 ### Advanced Troubleshooting
 
-For more complex issues, you can use the diagnostic tool:
+For more complex issues, you can dump the engine state to check which components loaded:
 
 ```bash
-python -m cognitive_engine.diagnostics
+python -c "from cognitive_engine import HybridCognitiveEngine; print(HybridCognitiveEngine().to_json())"
 ```
-
-This will run a series of checks to identify common issues with your installation.
 
 ## Updating
 
@@ -313,4 +300,4 @@ Now that you've installed the Cognitive Engine, you can:
 
 1. Follow the [Quick Start Guide](quickstart.md) to create your first application
 2. Explore the [Architecture Documentation](architecture.md) to understand the system
-3. Check out the [Examples](examples/index.md) for inspiration 
+3. Check out the [Examples](examples/index.md) for inspiration

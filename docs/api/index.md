@@ -24,7 +24,7 @@ engine = HybridCognitiveEngine()
 | `find_patterns(element_ids)` | Find patterns between elements |
 | `find_cross_layer_patterns()` | Find patterns across all layers |
 
-See the [Engine API]../code_execution.md for complete details on the main engine API.
+See the [Engine API](../code_execution.md) for complete details on the main engine API.
 
 ## Module APIs
 
@@ -33,22 +33,22 @@ Each module in the Cognitive Engine has its own API:
 ### Fractal System
 
 ```python
-from cognitive_engine.fractal import FractalSystem, Symbol, SymbolRelation
+from cognitive_engine.fractal import FractalSystem
 
 # Create a fractal system
 fs = FractalSystem(levels=7)
 
-# Add symbols and relations
-symbol = Symbol("example", properties={"key": "value"})
-fs.add_symbol(symbol, layer=2)
+# Create a root node and nest a child under it
+root = fs.create_root("example", properties={"key": "value"})
+child = root.create_child("nested", properties={"layer": 2})
 ```
 
-See the [Fractal API]../fractal.md for complete details.
+See the [Fractal API](../fractal.md) for complete details.
 
 ### Probabilistic System
 
 ```python
-from cognitive_engine.probabilistic import LLMInterface, ProbabilisticEngine
+from cognitive_engine.probabilistic import LLMInterface
 
 # Create an LLM interface
 llm = LLMInterface(model="gpt-4")
@@ -57,7 +57,7 @@ llm = LLMInterface(model="gpt-4")
 result = llm.process("Generate creative ideas for sustainable energy")
 ```
 
-See the [Probabilistic API]../probabilistic.md for complete details.
+See the [Probabilistic API](../probabilistic.md) for complete details.
 
 ### Memory System
 
@@ -65,21 +65,21 @@ See the [Probabilistic API]../probabilistic.md for complete details.
 from cognitive_engine.memory import PervasiveMemory
 
 # Create a memory system
-memory = PervasiveMemory(storage_path="./memory_store")
+memory = PervasiveMemory()
 
 # Store and retrieve information
-memory.store(content="Important information", metadata={"topic": "example"})
-result = memory.retrieve(query="example", limit=5)
+memory_id = memory.store(key="example", value="Important information", metadata={"topic": "example"})
+result = memory.retrieve(query="example", k=5)
 ```
 
-See the [Memory API]../memory.md for complete details.
+See the [Memory API](../memory.md) for complete details.
 
 ### Specialized Module APIs
 
-- [Unipixel API]../unipixel.md
-- [MMM API]../mmm.md
-- [Code Execution API]../code_execution.md
-- [PEFF API]../peff.md
+- [Unipixel API](../unipixel.md)
+- [MMM API](../mmm.md)
+- [Code Execution API](../code_execution.md)
+- [PEFF API](../peff.md)
 
 ## API Design Philosophy
 
@@ -97,40 +97,41 @@ Most API methods return a dictionary with standardized fields:
 
 ```python
 {
-    "status": "success",  # or "error"
-    "response": "The main response text",
-    "reasoning_trace": [
-        {"step": 1, "description": "..."},
-        {"step": 2, "description": "..."}
-    ],
-    "confidence": 0.95,  # Confidence score
-    "metadata": {
-        # Additional information about the response
-    }
+    "input": "Analyze the relationship between climate change and economic policy",
+    "symbolic_representation": {...},
+    "neural_outputs": {...},
+    "memory_id": "mem_0001",
+    # Engine state snapshots are available via engine.to_json()
 }
 ```
 
 ## Authentication and Security
 
-When using external services (e.g., LLMs), authentication is managed through:
+When using external services (e.g., LLMs or the Perplexity search engine), credentials are
+passed through the engine configuration:
 
 ```python
-from cognitive_engine import set_api_credentials
+import os
 
-# Set credentials for external services
-set_api_credentials(
-    service_name="openai",
-    api_key="your-api-key",
-    additional_params={}
+from cognitive_engine import HybridCognitiveEngine
+
+engine = HybridCognitiveEngine(
+    config={
+        "perplexity_api_key": os.environ["PERPLEXITY_API_KEY"],
+        "perplexity_cache_dir": "./.perplexity_cache",
+    }
 )
 ```
 
 ## Extending the API
 
-The Cognitive Engine can be extended with custom modules:
+The Cognitive Engine can be extended by supplying custom component implementations to the
+engine constructor or by using the module classes directly:
 
 ```python
-from cognitive_engine import HybridCognitiveEngine, register_module
+from cognitive_engine import HybridCognitiveEngine
+from cognitive_engine.fractal import FractalSystem
+from cognitive_engine.probabilistic import LLMInterface
 
 # Create a custom module
 class CustomModule:
@@ -138,12 +139,14 @@ class CustomModule:
         # Custom processing logic
         return {"result": "processed data"}
 
-# Register the module
-register_module("custom", CustomModule())
+# Inject custom components (or your own subclasses of them)
+engine = HybridCognitiveEngine(
+    symbolic_system=FractalSystem(levels=5),
+    neural_system=LLMInterface(model="gpt-4"),
+)
 
-# Use in the engine
-engine = HybridCognitiveEngine()
-result = engine.modules.custom.process("input data")
+# Standalone modules can be driven directly
+result = CustomModule().process("input data")
 ```
 
 ## Version Compatibility
@@ -163,4 +166,4 @@ Current version: 0.1.0
 - Core engine implementation
 - Basic fractal and probabilistic systems
 - Memory storage and retrieval
-- Unipixel functionality 
+- Unipixel functionality

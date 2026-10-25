@@ -10,7 +10,7 @@ from cognitive_engine.probabilistic import LLMInterface, ProbabilisticEngine
 from cognitive_engine.memory import PervasiveMemory
 from cognitive_engine.unipixel import UnipixelRegistry
 from cognitive_engine.mmm import MagicalMathModel
-from cognitive_engine.perplexity_api import PerplexitySearchEngine
+from cognitive_engine.llm.perplexity_api import PerplexitySearchEngine
 
 
 class HybridCognitiveEngine:
@@ -55,10 +55,11 @@ class HybridCognitiveEngine:
         
         self.neural = neural_system
         if self.neural is None:
-            if self.config.get('use_llm', True):
-                self.neural = LLMInterface(model=self.config.get('llm_model', 'gpt-4'))
-            else:
-                self.neural = ProbabilisticEngine()
+            if not self.config.get('use_llm', True):
+                raise ValueError(
+                    "use_llm=False requires an explicit neural_system to be supplied"
+                )
+            self.neural = LLMInterface(model=self.config.get('llm_model', 'gpt-4'))
         
         self.memory = memory_system or PervasiveMemory()
         

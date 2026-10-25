@@ -100,11 +100,8 @@ The test system supports multiple command line options:
 | `--retrain` | Force model retraining |
 | `--export-vis PATH` | Export visualizations to custom path |
 | `--verbose` | Enable verbose logging |
-| `--benchmark` | Run performance benchmarks |
-| `--force-cursor-mode` | Run in Cursor IDE compatibility mode |
-| `--skip-tests` | Skip tests and only generate visualizations |
-| `--generate-report` | Generate HTML report |
-| `--interactive` | Enable interactive mode |
+
+`--force-cursor-mode` is handled by the wrapper script `setup/setup_and_run.sh`, not by `run_tests.sh`.
 
 ## Environment Requirements
 
@@ -135,26 +132,12 @@ Test results are reported in multiple formats:
 
 ## Advanced Usage
 
-### Custom Test Data
+### Custom Configuration
 
-You can provide custom test data by creating a JSON file:
+You can point the runner at your own configuration file (same schema as `tests/data/neural_config.json`):
 
-```json
-[
-  {
-    "input": "Your input text",
-    "expectedOutput": "expected_label",
-    "metadata": {
-      "context": "use_case",
-      "confidence": 0.95
-    }
-  }
-]
-```
-
-Then run with:
 ```bash
-./run_tests.sh --custom-data path/to/data.json --visualize
+./run_tests.sh --config path/to/neural_config.json --visualize
 ```
 
 ### Continuous Integration
@@ -164,7 +147,7 @@ The neural tests can be integrated into CI/CD pipelines:
 ```yaml
 test_neural:
   script:
-    - ./run_tests.sh --visualize --ci-mode
+    - ./run_tests.sh --visualize
   artifacts:
     paths:
       - visualizations/

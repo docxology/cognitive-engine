@@ -23,7 +23,7 @@ There are many ways to contribute to Cognitive Engine:
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/your-username/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a virtual environment
@@ -32,7 +32,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-pip install -r requirements-dev.txt
 
 # Install in development mode
 pip install -e .
@@ -127,8 +126,7 @@ When suggesting features:
 
 Join our community channels to get help or discuss the project:
 
-- [GitHub Discussions](https://github.com/yourusername/cognitive-engine/discussions)
-- [Discord Server](https://discord.gg/your-discord-link)
+- [GitHub Discussions](https://github.com/docxology/cognitive-engine/discussions)
 
 ## License
 

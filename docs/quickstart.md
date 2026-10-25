@@ -6,7 +6,7 @@ This guide will help you get started with the Cognitive Engine, walking you thro
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - pip (Python package manager)
 - Virtual environment (recommended)
 
@@ -15,7 +15,7 @@ This guide will help you get started with the Cognitive Engine, walking you thro
 1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 ```
 
@@ -62,8 +62,8 @@ engine = HybridCognitiveEngine()
 # Process a simple query
 result = engine.process("Explain how neural networks and symbolic AI complement each other")
 
-# Print the response
-print(result['response'])
+# Print the neural output
+print(result['neural_outputs'])
 ```
 
 Run the example:
@@ -79,13 +79,13 @@ Now let's create a more customized engine with specific settings:
 ```python
 from cognitive_engine import HybridCognitiveEngine
 from cognitive_engine.fractal import FractalSystem
-from cognitive_engine.probabilistic import LLMInterface
+from cognitive_engine.probabilistic import LLMInterface, LLMConfig
 from cognitive_engine.memory import PervasiveMemory
 
 # Create individual components with custom settings
 fractal_system = FractalSystem(levels=7)
-llm = LLMInterface(model="gpt-4", temperature=0.7)
-memory = PervasiveMemory(storage_path="./my_memory_store")
+llm = LLMInterface(model="gpt-4", config=LLMConfig(temperature=0.7))
+memory = PervasiveMemory(storage_config={"persistence_path": "./my_memory_store"})
 
 # Create the engine with custom components
 engine = HybridCognitiveEngine(
@@ -96,7 +96,7 @@ engine = HybridCognitiveEngine(
 
 # Process a query
 result = engine.process("Describe the key advantages of hybrid AI systems")
-print(result['response'])
+print(result['neural_outputs'])
 ```
 
 ## Working with Core Modules
@@ -104,48 +104,43 @@ print(result['response'])
 ### Fractal System
 
 ```python
-from cognitive_engine.fractal import FractalSystem, Symbol, SymbolRelation
+from cognitive_engine.fractal import FractalSystem
+from cognitive_engine.fractal.binding import BindingMechanism
 
 # Create a fractal system
 fs = FractalSystem(levels=7)
 
-# Create symbols
-apple = Symbol("apple", properties={"type": "fruit", "color": "red"})
-fruit = Symbol("fruit", properties={"type": "category"})
+# Create nodes
+apple = fs.create_root("apple", properties={"type": "fruit", "color": "red"})
+fruit = fs.create_root("fruit", properties={"type": "category"})
 
-# Create a relation
-is_a = SymbolRelation(apple, fruit, relation_type="is_a")
+# Relate the nodes through a binding
+mechanism = BindingMechanism(fractal_system=fs)
+binding = mechanism.create_binding(apple.id, fruit.id, "is_a")
 
-# Add to the fractal system
-fs.add_symbol(apple, layer=3)
-fs.add_symbol(fruit, layer=4)
-fs.add_relation(is_a)
-
-# Query the system
-fruits = fs.find_symbols_by_relation(fruit, "is_a", reverse=True)
-print(f"Found {len(fruits)} fruits")
+# Query the bindings
+related = mechanism.get_bindings_by_relation("is_a")
+print(f"Found {len(related)} 'is_a' bindings")
 ```
 
 ### Probabilistic System
 
 ```python
-from cognitive_engine.probabilistic import LLMInterface, PromptManager
+from cognitive_engine.probabilistic import LLMInterface
 
 # Create an LLM interface
 llm = LLMInterface(model="gpt-4")
 
-# Create a prompt manager
-prompt_manager = PromptManager()
-prompt = prompt_manager.format_prompt(
-    template="analyze_topic",
-    topic="climate change",
-    perspective="economic impact",
-    depth="detailed"
-)
-
 # Generate a response
-response = llm.generate(prompt, max_tokens=500)
+response = llm.process("Analyze the economic impact of climate change")
 print(response)
+
+# Perform reasoning with symbolic context
+reasoning = llm.reason(
+    query="Does the evidence support the conclusion?",
+    symbolic_reasoning={"steps": ["step 1", "step 2"]}
+)
+print(reasoning)
 ```
 
 ### Memory System
@@ -154,19 +149,19 @@ print(response)
 from cognitive_engine.memory import PervasiveMemory
 
 # Create a memory system
-memory = PervasiveMemory(storage_path="./memory_store")
+memory = PervasiveMemory(storage_config={"persistence_path": "./memory_store"})
 
 # Store information
 memory_id = memory.store(
-    content="The Cognitive Engine combines symbolic and neural approaches to AI",
+    key="hybrid_ai",
+    value="The Cognitive Engine combines symbolic and neural approaches to AI",
     metadata={"topic": "hybrid_ai", "importance": 0.8}
 )
 
 # Retrieve information
-results = memory.retrieve(query="symbolic neural hybrid", limit=5)
+results = memory.retrieve(query="symbolic neural hybrid", k=5)
 for item in results:
-    print(f"Content: {item.content}")
-    print(f"Relevance: {item.relevance_score}")
+    print(item)
     print("---")
 ```
 
@@ -176,34 +171,34 @@ Let's build a more comprehensive example that uses multiple modules:
 
 ```python
 from cognitive_engine import HybridCognitiveEngine
-from cognitive_engine.fractal import Symbol
 import time
 
 # Initialize the engine
 engine = HybridCognitiveEngine()
 
 # Store some knowledge
-engine.memory_system.store(
-    content="Climate change is leading to rising sea levels and more extreme weather events",
+engine.memory.store(
+    key="climate_change",
+    value="Climate change is leading to rising sea levels and more extreme weather events",
     metadata={"topic": "climate_change", "source": "scientific_consensus"}
 )
 
-engine.memory_system.store(
-    content="Renewable energy sources include solar, wind, hydro, and geothermal power",
+engine.memory.store(
+    key="renewable_energy",
+    value="Renewable energy sources include solar, wind, hydro, and geothermal power",
     metadata={"topic": "renewable_energy", "source": "energy_research"}
 )
 
-# Create some symbols in the fractal system
-climate_change = Symbol("climate_change", properties={"domain": "environment"})
-renewable_energy = Symbol("renewable_energy", properties={"domain": "energy"})
-mitigation = Symbol("mitigation", properties={"type": "strategy"})
-
-engine.symbolic_system.add_symbol(climate_change, layer=4)
-engine.symbolic_system.add_symbol(renewable_energy, layer=4)
-engine.symbolic_system.add_symbol(mitigation, layer=3)
-
-engine.symbolic_system.add_relation(renewable_energy, climate_change, "mitigates")
-engine.symbolic_system.add_relation(renewable_energy, mitigation, "is_a")
+# Create some nodes in the fractal system
+climate_change = engine.symbolic.create_root(
+    "climate_change", properties={"domain": "environment"}
+)
+renewable_energy = engine.symbolic.create_root(
+    "renewable_energy", properties={"domain": "energy"}
+)
+mitigation = climate_change.create_child(
+    "mitigation", properties={"type": "strategy"}
+)
 
 # Create unipixels
 climate_pixel = engine.create_unipixel(
@@ -219,26 +214,22 @@ energy_pixel = engine.create_unipixel(
 )
 
 # Process a complex query
-result = engine.process(
-    "How can renewable energy help address climate change?",
-    use_memory=True,
-    reasoning_depth="deep"
-)
+result = engine.process("How can renewable energy help address climate change?")
 
-print("\nResponse:")
-print(result['response'])
+print("\nNeural output:")
+print(result['neural_outputs'])
 
-print("\nReasoning trace:")
-for step in result.get('reasoning_trace', []):
-    print(f"Step {step['step']}: {step['description']}")
+reasoning = engine.reason("How can renewable energy help address climate change?")
+print("\nIntegrated reasoning:")
+print(reasoning['integrated_reasoning'])
 
 # Find patterns between domains
 time.sleep(1)  # Give the engine time to process
 patterns = engine.find_patterns([climate_pixel['id'], energy_pixel['id']])
 
-print("\nIdentified relationships between climate and energy systems:")
-for relationship in patterns.get('relationships', []):
-    print(f"- {relationship.get('description')}")
+print("\nIdentified patterns between climate and energy systems:")
+for pattern in patterns.get('patterns', []):
+    print(f"- {pattern}")
 ```
 
 ## Next Steps
@@ -273,4 +264,4 @@ Now that you've completed the quick start guide, here are some suggestions for n
 - [Fractal System Documentation](fractal.md)
 - [Probabilistic System Documentation](probabilistic.md)
 - [Memory System Documentation](memory.md)
-- [API Reference](api/index.md) 
+- [API Reference](api/index.md)

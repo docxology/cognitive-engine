@@ -320,7 +320,7 @@ results = memory.neural_search(
 
 ```python
 # Initialize memory system
-memory = PervasiveMemory(storage_path="./memory_store")
+memory = PervasiveMemory(storage_config={"persistence_path": "./memory_store"})
 
 # Store information
 memory_id = memory.store(

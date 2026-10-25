@@ -185,7 +185,7 @@ sequenceDiagram
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a virtual environment
@@ -201,13 +201,13 @@ pip install -e .
 
 ### Dependencies
 
-- Python 3.8+
+- Python 3.10+
 - Core libraries:
-  - NumPy (≥1.22.0)
-  - SciPy (≥1.8.0)
-  - PyTorch (≥2.0.0)
-  - Transformers (≥4.25.0)
-  - NetworkX (≥2.8.0)
+  - NumPy (≥2.0.0)
+  - SciPy (≥1.14.0)
+  - PyTorch (≥2.4.0)
+  - Transformers (≥4.46.0)
+  - NetworkX (≥3.4)
 
 See `requirements.txt` for the complete list of dependencies.
 
@@ -228,16 +228,16 @@ engine = HybridCognitiveEngine()
 engine = HybridCognitiveEngine(
     symbolic_system=FractalSystem(levels=7),
     neural_system=LLMInterface(model="gpt-4"),
-    memory_system=PervasiveMemory(storage_path="./memory_store")
+    memory_system=PervasiveMemory(storage_config={"persistence_path": "./memory_store"})
 )
 
 # Process a query
 result = engine.process("Analyze the relationship between climate change and economic policy")
-print(result['response'])
+print(result['neural_outputs'])
 
 # Perform reasoning on a complex question
 reasoning_result = engine.reason("How might quantum computing affect cryptographic systems?")
-print(reasoning_result['reasoning_trace'])
+print(reasoning_result['integrated_reasoning'])
 print(reasoning_result['conclusion'])
 ```
 
@@ -259,11 +259,11 @@ economic_pixel = engine.create_unipixel(
 
 # Find patterns between unipixels
 patterns = engine.find_patterns([climate_pixel['id'], economic_pixel['id']])
-print(patterns['relationships'])
+print(patterns['patterns'])
 
 # Find patterns across all layers
 cross_layer_patterns = engine.find_cross_layer_patterns()
-print(cross_layer_patterns['emerging_patterns'])
+print(cross_layer_patterns['patterns'])
 ```
 
 ### Web Research Integration
@@ -271,12 +271,13 @@ print(cross_layer_patterns['emerging_patterns'])
 ```python
 # Research a topic with the integrated search capabilities
 research_results = engine.research_topic("recent advances in fusion energy", depth=2)
-print(research_results['summary'])
-print(research_results['key_findings'])
+print(research_results['main_topic'])
+print(research_results['followup_questions'])
 
 # Save research to memory
-engine.memory_system.store(
-    content=research_results,
+engine.memory.store(
+    key="research:fusion-energy",
+    value=research_results,
     metadata={"topic": "fusion energy", "timestamp": "2023-03-09"}
 )
 ```
@@ -300,7 +301,7 @@ Contributions are welcome! Please see our [Contributing Guide](docs/contributing
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/your-username/cognitive-engine.git
+git clone https://github.com/docxology/cognitive-engine.git
 cd cognitive-engine
 
 # Create a new branch for your feature
@@ -310,7 +311,6 @@ git checkout -b feature/your-feature-name
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-pip install -r requirements-dev.txt
 pip install -e .
 
 # Run tests
@@ -321,7 +321,7 @@ pytest
 
 - [Architecture Overview](docs/architecture.md)
 - [API Reference](docs/api/index.md)
-- [Module Documentation](docs/modules/index.md)
+- [Documentation Home](docs/index.md)
 - [Example Gallery](docs/examples/index.md)
 - [FAQs](docs/faq.md)
 
@@ -337,7 +337,7 @@ If you use Cognitive Engine in your research, please cite:
 @software{cognitive_engine2023,
   author = {Cognitive Engine Contributors},
   title = {Cognitive Engine: A Hybrid Neuro-Symbolic AI System},
-  url = {https://github.com/yourusername/cognitive-engine},
+  url = {https://github.com/docxology/cognitive-engine},
   year = {2023},
 }
 ```
