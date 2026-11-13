@@ -201,7 +201,7 @@ pip install -e .
 
 ### Dependencies
 
-- Python 3.10+
+- Python 3.11+
 - Core libraries:
   - NumPy (≥2.0.0)
   - SciPy (≥1.14.0)
