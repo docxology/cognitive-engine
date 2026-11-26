@@ -1,0 +1,27 @@
+manuscript_dir: docs/manuscript
+
+paper:
+  title: "Parse Trees and Typed Bindings in Cognitive Engine"
+
+authors:
+  - name: Daniel Ari Friedman
+    orcid: "0000-0001-6232-9096"
+
+publication:
+  github_repository: docxology/cognitive-engine
+  repository_url: https://github.com/docxology/cognitive-engine
+
+metadata:
+  language: en
+  license: MIT
+
+steganography:
+  enabled: false
+
+render:
+  formats:
+    pdf: true
+    html: true
+    slides: false
+    docx: false
+    epub: false

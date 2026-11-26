@@ -1,21 +1,20 @@
-# Cognitive Engine — Documentation
+# Cognitive Engine documentation
 
-Documentation for the Cognitive Engine, a hybrid Neuro-Symbolic AI system
-combining fractal symbolic representations with probabilistic neural models
-(from `README.md`; package `cognitive-engine` v1.0.0).
+## Start locally
 
-## Entry points
+- [Installation](installation.md) distinguishes the Python package,
+  standalone symbolic check, and TypeScript fixture layer.
+- [Quick start and verification](quickstart.md) exercises fixed symbolic inputs.
+- [Fractal system](fractal.md) documents the actual Python structures and
+  explains how the parse tree differs from the binding graph.
+- [Technical manuscript](manuscript/README.md) records the observations and build.
 
-- Start: [Installation](installation.md) · [Quick Start](quickstart.md) · [Examples](examples/index.md)
-- Architecture: [System Overview](architecture.md) · [Architecture Visualization](architecture_visualization.md) · [Design Principles](design_principles.md)
-- Core modules: [Fractal System](fractal.md) · [Probabilistic System](probabilistic.md) · [Memory System](memory.md)
-- Specialized modules: [Unipixel](unipixel.md) · [MMM](mmm.md) · [Code Execution](code_execution.md) · [PEFF](peff.md)
-- API: [API Reference](api/index.md)
-- Developer: [Contributing](contributing.md) · [Neural Network Testing](neural_network_testing.md)
-- Reference: [FAQ](faq.md) · [Roadmap](roadmap.md)
+## Explore the repository
 
-## Source of truth
-
-`README.md` and `NEURAL_TESTS.md` at the repo root; agent operational
-notes in `docs/AGENTS.md`. Links in these pages were verified to resolve
-to files that exist in this repository (docs-audit 2026-08-29).
+- [Architecture](architecture.md), [design principles](design_principles.md),
+  and [API index](api/index.md) describe the wider framework.
+- [Examples](examples/index.md) and [curriculum](curriculum/comprehensive_learning.md) contain
+  related explanatory material.
+- [Contributing](contributing.md), [FAQ](faq.md), and [roadmap](roadmap.md)
+  describe the project and its development.
+- [Archive](archive/README.md) links earlier plans, guides, and recorded outputs.

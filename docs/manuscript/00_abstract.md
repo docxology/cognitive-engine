@@ -1,0 +1,3 @@
+# Abstract
+
+Cognitive Engine includes a symbolic implementation that represents parsed text as a nested hierarchy and maintains an explicit graph for registered entities and typed bindings. This report follows those structures through small, deterministic fixtures. Parsing “Oak shelf. Clay jar” yields seven nested nodes, while the new parser instance indexes only the root and has no graph edges. A separate fixture recovers the expected endpoint from two ordered bindings and returns an empty result when the order is reversed. A root-only template substitutes a named parameter. The companion tests and build instructions preserve the inputs and record the observed outputs.
