@@ -2,7 +2,7 @@
 
 ## Layout
 
-- Implementation in TypeScript (`tests/*.test.ts` run by jest; package
+- Python implements the engine. The separate TypeScript fixture layer lives in `tests/*.test.ts` (package
   scripts in `package.json`, e.g. `npm test`, `test:fractal`, `test:mmm`).
   Python/TS hybrid elements noted in `setup.py` and `requirements.txt` at
   repo root.

@@ -47,5 +47,5 @@ After running the tests, you'll find:
 
 For detailed documentation, see:
 
-- [Neural Test Guide](setup/NEURAL_TEST_GUIDE.md) - Comprehensive guide to running tests
-- [Setup README](setup/README.md) - Information about the setup utilities 
+- [Neural Test Guide](../../setup/NEURAL_TEST_GUIDE.md) - Comprehensive guide to running tests
+- [Setup README](../../setup/README.md) - Information about the setup utilities
