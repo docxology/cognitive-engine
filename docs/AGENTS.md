@@ -23,6 +23,8 @@
   (docs-audit 2026-08-29 repaired 21 dangling links in `index.md`,
   `api/index.md`, `neural_network_testing.md`, and `contributing.md`).
 
+For claims about the Python symbolic modules, use the [fixed local fixture](quickstart.md). The TypeScript commands below verify a separate layer.
+
 ## Commands (from package.json)
 
 ```bash
